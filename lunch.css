@@ -207,6 +207,58 @@
     background-color: #2980b9;
 }
 
+/* Стили для выбранных блюд */
+.selected-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.selected-price {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1.1rem;
+}
+
+#nothing-selected {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+/* Стили для подсветки выбранной карточки */
+.dish-card.selected {
+    border: 3px solid #3498db !important;
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+}
+
+/* Блок с общей стоимостью */
+.total-cost-container {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #3498db;
+}
+
+.total-cost-container .form-group label {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#total-cost {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
 /* Адаптивность для страницы "Собрать ланч" */
 @media (max-width: 800px) {
     .dishes-grid {
@@ -284,5 +336,15 @@
     .form-group textarea {
         padding: 10px;
         font-size: 0.9rem;
+    }
+    
+    .selected-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .selected-price {
+        align-self: flex-end;
     }
 }

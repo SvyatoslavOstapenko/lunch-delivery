@@ -38,32 +38,7 @@
             <section id="soups">
                 <h2>Супы</h2>
                 <div class="dishes-grid">
-                    <!-- Блюдо 1 -->
-                    <div class="dish-card">
-                        <img src="images/soup1.jpg" alt="Куриный суп">
-                        <p class="price">250 ₽</p>
-                        <p class="name">Куриный суп с лапшой</p>
-                        <p class="weight">350 мл</p>
-                        <button>Добавить</button>
-                    </div>
-                    
-                    <!-- Блюдо 2 -->
-                    <div class="dish-card">
-                        <img src="images/soup2.jpg" alt="Борщ">
-                        <p class="price">280 ₽</p>
-                        <p class="name">Борщ с говядиной и сметаной</p>
-                        <p class="weight">400 мл</p>
-                        <button>Добавить</button>
-                    </div>
-                    
-                    <!-- Блюдо 3 -->
-                    <div class="dish-card">
-                        <img src="images/soup3.jpg" alt="Том Ям">
-                        <p class="price">320 ₽</p>
-                        <p class="name">Том Ям с креветками</p>
-                        <p class="weight">300 мл</p>
-                        <button>Добавить</button>
-                    </div>
+                    <!-- Блюда будут добавлены динамически -->
                 </div>
             </section>
 
@@ -71,32 +46,7 @@
             <section id="main-courses">
                 <h2>Главные блюда</h2>
                 <div class="dishes-grid">
-                    <!-- Блюдо 1 -->
-                    <div class="dish-card">
-                        <img src="images/main1.jpg" alt="Стейк">
-                        <p class="price">520 ₽</p>
-                        <p class="name">Стейк из говядины с овощами</p>
-                        <p class="weight">350 г</p>
-                        <button>Добавить</button>
-                    </div>
-                    
-                    <!-- Блюдо 2 -->
-                    <div class="dish-card">
-                        <img src="images/main2.jpg" alt="Паста">
-                        <p class="price">380 ₽</p>
-                        <p class="name">Паста Карбонара с беконом</p>
-                        <p class="weight">300 г</p>
-                        <button>Добавить</button>
-                    </div>
-                    
-                    <!-- Блюдо 3 -->
-                    <div class="dish-card">
-                        <img src="images/main3.jpg" alt="Лосось">
-                        <p class="price">450 ₽</p>
-                        <p class="name">Лосось на гриле с рисом</p>
-                        <p class="weight">320 г</p>
-                        <button>Добавить</button>
-                    </div>
+                    <!-- Блюда будут добавлены динамически -->
                 </div>
             </section>
 
@@ -104,32 +54,7 @@
             <section id="drinks">
                 <h2>Напитки</h2>
                 <div class="dishes-grid">
-                    <!-- Блюдо 1 -->
-                    <div class="dish-card">
-                        <img src="images/drink1.jpg" alt="Сок">
-                        <p class="price">150 ₽</p>
-                        <p class="name">Апельсиновый сок</p>
-                        <p class="weight">330 мл</p>
-                        <button>Добавить</button>
-                    </div>
-                    
-                    <!-- Блюдо 2 -->
-                    <div class="dish-card">
-                        <img src="images/drink2.jpg" alt="Чай">
-                        <p class="price">120 ₽</p>
-                        <p class="name">Зеленый чай с жасмином</p>
-                        <p class="weight">500 мл</p>
-                        <button>Добавить</button>
-                    </div>
-                    
-                    <!-- Блюдо 3 -->
-                    <div class="dish-card">
-                        <img src="images/drink3.jpg" alt="Кофе">
-                        <p class="price">180 ₽</p>
-                        <p class="name">Капучино</p>
-                        <p class="weight">350 мл</p>
-                        <button>Добавить</button>
-                    </div>
+                    <!-- Блюда будут добавлены динамически -->
                 </div>
             </section>
         </div>
@@ -145,35 +70,56 @@
                     <div class="form-column">
                         <h3>Ваш заказ</h3>
                         
-                        <div class="form-group">
-                            <label for="soup">Суп:</label>
-                            <select id="soup" name="soup" required>
-                                <option value="">Выберите суп</option>
-                                <option value="chicken_soup">Куриный суп с лапшой - 250 ₽</option>
-                                <option value="borscht">Борщ с говядиной - 280 ₽</option>
-                                <option value="tom_yam">Том Ям с креветками - 320 ₽</option>
-                            </select>
+                        <!-- Состояние: ничего не выбрано -->
+                        <div id="nothing-selected">
+                            <p>Ничего не выбрано</p>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="main_course">Главное блюдо:</label>
-                            <select id="main_course" name="main_course" required>
-                                <option value="">Выберите блюдо</option>
-                                <option value="steak">Стейк из говядины - 520 ₽</option>
-                                <option value="pasta">Паста Карбонара - 380 ₽</option>
-                                <option value="salmon">Лосось на гриле - 450 ₽</option>
-                            </select>
+                        <!-- Выбранные блюда будут отображаться здесь -->
+                        <div class="selected-dishes">
+                            <!-- Супы -->
+                            <div class="form-group soup-category" style="display: none;">
+                                <label>Суп:</label>
+                                <div class="selected-item">
+                                    <span id="selected-soup">Блюдо не выбрано</span>
+                                    <span id="selected-soup-price" class="selected-price">0 ₽</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Главные блюда -->
+                            <div class="form-group main-category" style="display: none;">
+                                <label>Главное блюдо:</label>
+                                <div class="selected-item">
+                                    <span id="selected-main">Блюдо не выбрано</span>
+                                    <span id="selected-main-price" class="selected-price">0 ₽</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Напитки -->
+                            <div class="form-group drink-category" style="display: none;">
+                                <label>Напиток:</label>
+                                <div class="selected-item">
+                                    <span id="selected-drink">Напиток не выбран</span>
+                                    <span id="selected-drink-price" class="selected-price">0 ₽</span>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="drink">Напиток:</label>
-                            <select id="drink" name="drink" required>
-                                <option value="">Выберите напиток</option>
-                                <option value="juice">Апельсиновый сок - 150 ₽</option>
-                                <option value="tea">Зеленый чай - 120 ₽</option>
-                                <option value="coffee">Капучино - 180 ₽</option>
-                            </select>
+                        <!-- Общая стоимость -->
+                        <div id="total-cost-container" class="total-cost-container" style="display: none;">
+                            <div class="form-group">
+                                <label>Общая стоимость:</label>
+                                <div class="selected-item">
+                                    <span id="total-cost">0 ₽</span>
+                                </div>
+                            </div>
                         </div>
+                        
+                        <!-- Скрытые поля для отправки данных -->
+                        <input type="hidden" id="hidden-soup" name="soup" value="">
+                        <input type="hidden" id="hidden-main" name="main_course" value="">
+                        <input type="hidden" id="hidden-drink" name="drink" value="">
+                        <input type="hidden" id="hidden-total" name="total" value="0">
                         
                         <div class="form-group">
                             <label for="comment">Комментарий к заказу:</label>
@@ -254,7 +200,10 @@
         </div>
     </footer>
 
-    <!-- Подключение JavaScript для формы -->
+    <!-- Подключение JavaScript -->
+    <script src="dishes.js"></script>
+    <script src="displayDishes.js"></script>
+    <script src="selectDishes.js"></script>
     <script src="form.js"></script>
 </body>
 </html>
