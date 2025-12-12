@@ -23,7 +23,9 @@
                     <li><a href="lunch.html" id="active">Собрать ланч</a></li>
                     <li><a href="#soups">Супы</a></li>
                     <li><a href="#main-courses">Главные блюда</a></li>
+                    <li><a href="#salads">Салаты</a></li>
                     <li><a href="#drinks">Напитки</a></li>
+                    <li><a href="#desserts">Десерты</a></li>
                     <li><a href="#order-form">Оформление заказа</a></li>
                     <li><a href="#contacts">Контакты</a></li>
                 </ul>
@@ -37,6 +39,12 @@
             <!-- Блок с супами -->
             <section id="soups">
                 <h2>Супы</h2>
+                <div class="filter-buttons" data-category="soup">
+                    <button class="filter-btn active" data-kind="all">Все</button>
+                    <button class="filter-btn" data-kind="fish">Рыбный</button>
+                    <button class="filter-btn" data-kind="meat">Мясной</button>
+                    <button class="filter-btn" data-kind="veg">Вегетарианский</button>
+                </div>
                 <div class="dishes-grid">
                     <!-- Блюда будут добавлены динамически -->
                 </div>
@@ -45,6 +53,26 @@
             <!-- Блок с главными блюдами -->
             <section id="main-courses">
                 <h2>Главные блюда</h2>
+                <div class="filter-buttons" data-category="main">
+                    <button class="filter-btn active" data-kind="all">Все</button>
+                    <button class="filter-btn" data-kind="fish">Рыбное</button>
+                    <button class="filter-btn" data-kind="meat">Мясное</button>
+                    <button class="filter-btn" data-kind="veg">Вегетарианское</button>
+                </div>
+                <div class="dishes-grid">
+                    <!-- Блюда будут добавлены динамически -->
+                </div>
+            </section>
+
+            <!-- Блок с салатами и стартерами -->
+            <section id="salads">
+                <h2>Салаты и стартеры</h2>
+                <div class="filter-buttons" data-category="salad">
+                    <button class="filter-btn active" data-kind="all">Все</button>
+                    <button class="filter-btn" data-kind="fish">Рыбный</button>
+                    <button class="filter-btn" data-kind="meat">Мясной</button>
+                    <button class="filter-btn" data-kind="veg">Вегетарианский</button>
+                </div>
                 <div class="dishes-grid">
                     <!-- Блюда будут добавлены динамически -->
                 </div>
@@ -53,6 +81,25 @@
             <!-- Блок с напитками -->
             <section id="drinks">
                 <h2>Напитки</h2>
+                <div class="filter-buttons" data-category="drink">
+                    <button class="filter-btn active" data-kind="all">Все</button>
+                    <button class="filter-btn" data-kind="cold">Холодный</button>
+                    <button class="filter-btn" data-kind="hot">Горячий</button>
+                </div>
+                <div class="dishes-grid">
+                    <!-- Блюда будут добавлены динамически -->
+                </div>
+            </section>
+
+            <!-- Блок с десертами -->
+            <section id="desserts">
+                <h2>Десерты</h2>
+                <div class="filter-buttons" data-category="dessert">
+                    <button class="filter-btn active" data-kind="all">Все</button>
+                    <button class="filter-btn" data-kind="small">Маленькая порция</button>
+                    <button class="filter-btn" data-kind="medium">Средняя порция</button>
+                    <button class="filter-btn" data-kind="large">Большая порция</button>
+                </div>
                 <div class="dishes-grid">
                     <!-- Блюда будут добавлены динамически -->
                 </div>
@@ -95,12 +142,30 @@
                                 </div>
                             </div>
                             
+                            <!-- Салаты -->
+                            <div class="form-group salad-category" style="display: none;">
+                                <label>Салат или стартер:</label>
+                                <div class="selected-item">
+                                    <span id="selected-salad">Блюдо не выбрано</span>
+                                    <span id="selected-salad-price" class="selected-price">0 ₽</span>
+                                </div>
+                            </div>
+                            
                             <!-- Напитки -->
                             <div class="form-group drink-category" style="display: none;">
                                 <label>Напиток:</label>
                                 <div class="selected-item">
                                     <span id="selected-drink">Напиток не выбран</span>
                                     <span id="selected-drink-price" class="selected-price">0 ₽</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Десерты -->
+                            <div class="form-group dessert-category" style="display: none;">
+                                <label>Десерт:</label>
+                                <div class="selected-item">
+                                    <span id="selected-dessert">Десерт не выбран</span>
+                                    <span id="selected-dessert-price" class="selected-price">0 ₽</span>
                                 </div>
                             </div>
                         </div>
@@ -118,7 +183,9 @@
                         <!-- Скрытые поля для отправки данных -->
                         <input type="hidden" id="hidden-soup" name="soup" value="">
                         <input type="hidden" id="hidden-main" name="main_course" value="">
+                        <input type="hidden" id="hidden-salad" name="salad" value="">
                         <input type="hidden" id="hidden-drink" name="drink" value="">
+                        <input type="hidden" id="hidden-dessert" name="dessert" value="">
                         <input type="hidden" id="hidden-total" name="total" value="0">
                         
                         <div class="form-group">
@@ -204,6 +271,7 @@
     <script src="dishes.js"></script>
     <script src="displayDishes.js"></script>
     <script src="selectDishes.js"></script>
+    <script src="filterDishes.js"></script>
     <script src="form.js"></script>
 </body>
 </html>

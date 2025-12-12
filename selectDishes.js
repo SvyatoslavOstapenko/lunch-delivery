@@ -3,23 +3,31 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedDishes = {
         soup: null,
         main: null,
-        drink: null
+        salad: null,
+        drink: null,
+        dessert: null
     };
     
     // Находим элементы для отображения выбранных блюд
     const selectedSoupElement = document.getElementById('selected-soup');
     const selectedMainElement = document.getElementById('selected-main');
+    const selectedSaladElement = document.getElementById('selected-salad');
     const selectedDrinkElement = document.getElementById('selected-drink');
+    const selectedDessertElement = document.getElementById('selected-dessert');
     
     // Находим элементы для отображения цены
     const selectedSoupPriceElement = document.getElementById('selected-soup-price');
     const selectedMainPriceElement = document.getElementById('selected-main-price');
+    const selectedSaladPriceElement = document.getElementById('selected-salad-price');
     const selectedDrinkPriceElement = document.getElementById('selected-drink-price');
+    const selectedDessertPriceElement = document.getElementById('selected-dessert-price');
     
     // Находим контейнеры категорий и общую стоимость
     const soupCategoryElement = document.querySelector('.soup-category');
     const mainCategoryElement = document.querySelector('.main-category');
+    const saladCategoryElement = document.querySelector('.salad-category');
     const drinkCategoryElement = document.querySelector('.drink-category');
+    const dessertCategoryElement = document.querySelector('.dessert-category');
     const nothingSelectedElement = document.getElementById('nothing-selected');
     const totalCostElement = document.getElementById('total-cost');
     const totalCostContainer = document.getElementById('total-cost-container');
@@ -27,7 +35,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Находим скрытые поля для отправки формы
     const hiddenSoupField = document.getElementById('hidden-soup');
     const hiddenMainField = document.getElementById('hidden-main');
+    const hiddenSaladField = document.getElementById('hidden-salad');
     const hiddenDrinkField = document.getElementById('hidden-drink');
+    const hiddenDessertField = document.getElementById('hidden-dessert');
     const hiddenTotalField = document.getElementById('hidden-total');
     
     // Функция для поиска блюда по keyword
@@ -38,14 +48,18 @@ document.addEventListener('DOMContentLoaded', function() {
     // Функция для обновления отображения выбранных блюд
     function updateSelectedDishesDisplay() {
         // Проверяем, выбрано ли хотя бы одно блюдо
-        const hasSelection = selectedDishes.soup || selectedDishes.main || selectedDishes.drink;
+        const hasSelection = selectedDishes.soup || selectedDishes.main || 
+                           selectedDishes.salad || selectedDishes.drink || 
+                           selectedDishes.dessert;
         
         if (!hasSelection) {
             // Ничего не выбрано
             nothingSelectedElement.style.display = 'block';
             soupCategoryElement.style.display = 'none';
             mainCategoryElement.style.display = 'none';
+            saladCategoryElement.style.display = 'none';
             drinkCategoryElement.style.display = 'none';
+            dessertCategoryElement.style.display = 'none';
             totalCostContainer.style.display = 'none';
             return;
         }
@@ -54,16 +68,18 @@ document.addEventListener('DOMContentLoaded', function() {
         nothingSelectedElement.style.display = 'none';
         
         // Обновляем отображение для каждой категории
-        updateCategoryDisplay('soup', selectedSoupElement, selectedSoupPriceElement, soupCategoryElement);
-        updateCategoryDisplay('main', selectedMainElement, selectedMainPriceElement, mainCategoryElement);
-        updateCategoryDisplay('drink', selectedDrinkElement, selectedDrinkPriceElement, drinkCategoryElement);
+        updateCategoryDisplay('soup', selectedSoupElement, selectedSoupPriceElement, soupCategoryElement, 'Супы не выбраны');
+        updateCategoryDisplay('main', selectedMainElement, selectedMainPriceElement, mainCategoryElement, 'Основное блюдо не выбрано');
+        updateCategoryDisplay('salad', selectedSaladElement, selectedSaladPriceElement, saladCategoryElement, 'Салат не выбран');
+        updateCategoryDisplay('drink', selectedDrinkElement, selectedDrinkPriceElement, drinkCategoryElement, 'Напиток не выбран');
+        updateCategoryDisplay('dessert', selectedDessertElement, selectedDessertPriceElement, dessertCategoryElement, 'Десерт не выбран');
         
         // Обновляем общую стоимость
         updateTotalCost();
     }
     
     // Функция для обновления отображения конкретной категории
-    function updateCategoryDisplay(category, nameElement, priceElement, categoryElement) {
+    function updateCategoryDisplay(category, nameElement, priceElement, categoryElement, defaultText) {
         const dish = selectedDishes[category];
         
         if (dish) {
@@ -76,9 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateHiddenField(category, dish);
         } else {
             // Блюдо не выбрано
-            nameElement.textContent = category === 'soup' ? 'Супы не выбраны' : 
-                                     category === 'main' ? 'Основное блюдо не выбрано' : 
-                                     'Напиток не выбран';
+            nameElement.textContent = defaultText;
             priceElement.textContent = '0 ₽';
             categoryElement.style.display = 'block';
             
@@ -94,16 +108,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 hiddenSoupField.value = dish.keyword;
             } else if (category === 'main') {
                 hiddenMainField.value = dish.keyword;
+            } else if (category === 'salad') {
+                hiddenSaladField.value = dish.keyword;
             } else if (category === 'drink') {
                 hiddenDrinkField.value = dish.keyword;
+            } else if (category === 'dessert') {
+                hiddenDessertField.value = dish.keyword;
             }
         } else {
             if (category === 'soup') {
                 hiddenSoupField.value = '';
             } else if (category === 'main') {
                 hiddenMainField.value = '';
+            } else if (category === 'salad') {
+                hiddenSaladField.value = '';
             } else if (category === 'drink') {
                 hiddenDrinkField.value = '';
+            } else if (category === 'dessert') {
+                hiddenDessertField.value = '';
             }
         }
     }
@@ -114,7 +136,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (selectedDishes.soup) total += selectedDishes.soup.price;
         if (selectedDishes.main) total += selectedDishes.main.price;
+        if (selectedDishes.salad) total += selectedDishes.salad.price;
         if (selectedDishes.drink) total += selectedDishes.drink.price;
+        if (selectedDishes.dessert) total += selectedDishes.dessert.price;
         
         totalCostElement.textContent = `${total} ₽`;
         hiddenTotalField.value = total;
@@ -125,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Функция для обработки клика по карточке блюда
     function handleDishClick(event) {
-        // Находим ближайшую карточку (на случай клика по внутренним элементам)
+        // Находим ближайшую карточку
         const card = event.target.closest('.dish-card');
         if (!card) return;
         
@@ -152,13 +176,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Убираем подсветку у всех карточек этой категории
         const allCards = document.querySelectorAll(`.dish-card[data-category="${category}"]`);
         allCards.forEach(card => {
-            card.style.border = '';
-            card.style.boxShadow = '';
+            card.classList.remove('selected');
         });
         
         // Подсвечиваем выбранную карточку
-        selectedCard.style.border = '3px solid #3498db';
-        selectedCard.style.boxShadow = '0 0 15px rgba(52, 152, 219, 0.3)';
+        selectedCard.classList.add('selected');
     }
     
     // Добавляем обработчики клика на все карточки блюд

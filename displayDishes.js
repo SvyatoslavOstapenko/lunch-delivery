@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         card.className = 'dish-card';
         card.setAttribute('data-dish', dish.keyword);
         card.setAttribute('data-category', dish.category);
+        card.setAttribute('data-kind', dish.kind);
         
         card.innerHTML = `
             <img src="${dish.image}" alt="${dish.name}">
@@ -29,17 +30,23 @@ document.addEventListener('DOMContentLoaded', function() {
         // Сортируем блюда по категориям
         const soups = sortDishesByCategory(dishes, 'soup');
         const mains = sortDishesByCategory(dishes, 'main');
+        const salads = sortDishesByCategory(dishes, 'salad');
         const drinks = sortDishesByCategory(dishes, 'drink');
+        const desserts = sortDishesByCategory(dishes, 'dessert');
         
         // Находим контейнеры для каждой категории
         const soupsContainer = document.querySelector('#soups .dishes-grid');
         const mainsContainer = document.querySelector('#main-courses .dishes-grid');
+        const saladsContainer = document.querySelector('#salads .dishes-grid');
         const drinksContainer = document.querySelector('#drinks .dishes-grid');
+        const dessertsContainer = document.querySelector('#desserts .dishes-grid');
         
-        // Очищаем контейнеры (на случай перерисовки)
+        // Очищаем контейнеры
         soupsContainer.innerHTML = '';
         mainsContainer.innerHTML = '';
+        saladsContainer.innerHTML = '';
         drinksContainer.innerHTML = '';
+        dessertsContainer.innerHTML = '';
         
         // Отображаем супы
         soups.forEach(soup => {
@@ -51,9 +58,19 @@ document.addEventListener('DOMContentLoaded', function() {
             mainsContainer.appendChild(createDishCard(main));
         });
         
+        // Отображаем салаты
+        salads.forEach(salad => {
+            saladsContainer.appendChild(createDishCard(salad));
+        });
+        
         // Отображаем напитки
         drinks.forEach(drink => {
             drinksContainer.appendChild(createDishCard(drink));
+        });
+        
+        // Отображаем десерты
+        desserts.forEach(dessert => {
+            dessertsContainer.appendChild(createDishCard(dessert));
         });
     }
 
