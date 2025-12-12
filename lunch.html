@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Собрать ланч - SvyatLunch Delivery</title>
+    <!-- Подключение Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Подключение CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="lunch.css">
+</head>
+<body>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container">
+            <h1>Собрать ланч</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="lunch.html" id="active">Собрать ланч</a></li>
+                    <li><a href="#soups">Супы</a></li>
+                    <li><a href="#main-courses">Главные блюда</a></li>
+                    <li><a href="#drinks">Напитки</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Основное содержимое -->
+    <main>
+        <div class="container">
+            <!-- Блок с супами -->
+            <section id="soups">
+                <h2>Супы</h2>
+                <div class="dishes-grid">
+                    <!-- Блюдо 1 -->
+                    <div class="dish-card">
+                        <img src="images/soup1.jpg" alt="Куриный суп">
+                        <p class="price">250 ₽</p>
+                        <p class="name">Куриный суп с лапшой</p>
+                        <p class="weight">350 мл</p>
+                        <button>Добавить</button>
+                    </div>
+                    
+                    <!-- Блюдо 2 -->
+                    <div class="dish-card">
+                        <img src="images/soup2.jpg" alt="Борщ">
+                        <p class="price">280 ₽</p>
+                        <p class="name">Борщ с говядиной и сметаной</p>
+                        <p class="weight">400 мл</p>
+                        <button>Добавить</button>
+                    </div>
+                    
+                    <!-- Блюдо 3 -->
+                    <div class="dish-card">
+                        <img src="images/soup3.jpg" alt="Том Ям">
+                        <p class="price">320 ₽</p>
+                        <p class="name">Том Ям с креветками</p>
+                        <p class="weight">300 мл</p>
+                        <button>Добавить</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Блок с главными блюдами -->
+            <section id="main-courses">
+                <h2>Главные блюда</h2>
+                <div class="dishes-grid">
+                    <!-- Блюдо 1 -->
+                    <div class="dish-card">
+                        <img src="images/main1.jpg" alt="Стейк">
+                        <p class="price">520 ₽</p>
+                        <p class="name">Стейк из говядины с овощами</p>
+                        <p class="weight">350 г</p>
+                        <button>Добавить</button>
+                    </div>
+                    
+                    <!-- Блюдо 2 -->
+                    <div class="dish-card">
+                        <img src="images/main2.jpg" alt="Паста">
+                        <p class="price">380 ₽</p>
+                        <p class="name">Паста Карбонара с беконом</p>
+                        <p class="weight">300 г</p>
+                        <button>Добавить</button>
+                    </div>
+                    
+                    <!-- Блюдо 3 -->
+                    <div class="dish-card">
+                        <img src="images/main3.jpg" alt="Лосось">
+                        <p class="price">450 ₽</p>
+                        <p class="name">Лосось на гриле с рисом</p>
+                        <p class="weight">320 г</p>
+                        <button>Добавить</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Блок с напитками -->
+            <section id="drinks">
+                <h2>Напитки</h2>
+                <div class="dishes-grid">
+                    <!-- Блюдо 1 -->
+                    <div class="dish-card">
+                        <img src="images/drink1.jpg" alt="Сок">
+                        <p class="price">150 ₽</p>
+                        <p class="name">Апельсиновый сок</p>
+                        <p class="weight">330 мл</p>
+                        <button>Добавить</button>
+                    </div>
+                    
+                    <!-- Блюдо 2 -->
+                    <div class="dish-card">
+                        <img src="images/drink2.jpg" alt="Чай">
+                        <p class="price">120 ₽</p>
+                        <p class="name">Зеленый чай с жасмином</p>
+                        <p class="weight">500 мл</p>
+                        <button>Добавить</button>
+                    </div>
+                    
+                    <!-- Блюдо 3 -->
+                    <div class="dish-card">
+                        <img src="images/drink3.jpg" alt="Кофе">
+                        <p class="price">180 ₽</p>
+                        <p class="name">Капучино</p>
+                        <p class="weight">350 мл</p>
+                        <button>Добавить</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Футер -->
+    <footer id="contacts">
+        <div class="container">
+            <h2>Контакты</h2>
+            <div class="contact-info">
+                <p>📞 Телефон: <a href="tel:+79003636836">+7 (900) 363-68-36</a></p>
+                <p>📧 Email: <a href="mailto:svyat.ostapenko@mail.ru">svyat.ostapenko@mail.ru</a></p>
+                <p>📍 Адрес: Москва, ул. 800-летия Москвы, д. 28</p>
+                <p>🕒 Время работы: Пн-Пт с 9:00 до 18:00</p>
+            </div>
+            <p class="copyright">&copy; 2025 SvyatLunch Delivery. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,122 @@
+/* Стили для страницы "Собрать ланч" */
+
+/* Блок с блюдами - Grid сетка */
+.dishes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+/* Карточка блюда - Flex контейнер */
+.dish-card {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px;
+    border-radius: 35px;
+    cursor: pointer;
+    filter: drop-shadow(17px 19px 24px rgba(0, 0, 0, 0.13));
+    background-color: white;
+    transition: all 0.3s ease;
+}
+
+/* Стили при наведении на карточку */
+.dish-card:hover {
+    border: 2px solid tomato;
+}
+
+/* Изменение цвета кнопки при наведении на карточку */
+.dish-card:hover button {
+    background-color: tomato;
+    color: white;
+}
+
+/* Изображение в карточке */
+.dish-card img {
+    width: 100%;
+    border-radius: 35px;
+    margin-bottom: 15px;
+}
+
+/* Цена блюда */
+.dish-card .price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+/* Название блюда */
+.dish-card .name {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    flex-grow: 1;
+}
+
+/* Вес/объем блюда */
+.dish-card .weight {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* Кнопка "Добавить" */
+.dish-card button {
+    background-color: #f1eee9;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+/* Адаптивность для страницы "Собрать ланч" */
+@media (max-width: 800px) {
+    .dishes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    header h1 {
+        text-align: center;
+    }
+    
+    nav ul {
+        justify-content: space-between;
+        gap: 10px;
+    }
+    
+    nav ul li:first-child,
+    nav ul li:last-child {
+        margin: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        text-align: center;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    nav a {
+        font-size: 1.1rem;
+    }
+    
+    section h2 {
+        text-align: center;
+    }
+    
+    .dishes-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dish-card {
+        padding: 20px 25px;
+    }
+}
