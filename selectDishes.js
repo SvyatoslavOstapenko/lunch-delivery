@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
             clearInterval(checkDishesLoaded);
             console.log('Блюда загружены, инициализируем выбор блюд...');
             initSelectDishes();
-            loadSavedDishes(); // Загружаем сохраненные блюда
         }
     }, 500);
     
@@ -64,6 +63,60 @@ document.addEventListener('DOMContentLoaded', function() {
         function findDishByKeyword(keyword) {
             const dishes = window.getDishes ? window.getDishes() : [];
             return dishes.find(dish => dish.keyword === keyword);
+        }
+        
+        // Функция для загрузки сохраненных блюд
+        function loadSavedDishes() {
+            if (!window.storageManager) return;
+            
+            const savedData = window.storageManager.loadSelectedDishes();
+            if (!savedData) return;
+            
+            console.log('Загружаем сохраненные блюда:', savedData);
+            
+            // Восстанавливаем выбранные блюда
+            if (savedData.soup) {
+                const dish = findDishByKeyword(savedData.soup);
+                if (dish) {
+                    selectedDishes.soup = dish;
+                    highlightSelectedCardByKeyword('soup', dish.keyword);
+                }
+            }
+            
+            if (savedData.main) {
+                const dish = findDishByKeyword(savedData.main);
+                if (dish) {
+                    selectedDishes.main = dish;
+                    highlightSelectedCardByKeyword('main', dish.keyword);
+                }
+            }
+            
+            if (savedData.salad) {
+                const dish = findDishByKeyword(savedData.salad);
+                if (dish) {
+                    selectedDishes.salad = dish;
+                    highlightSelectedCardByKeyword('salad', dish.keyword);
+                }
+            }
+            
+            if (savedData.drink) {
+                const dish = findDishByKeyword(savedData.drink);
+                if (dish) {
+                    selectedDishes.drink = dish;
+                    highlightSelectedCardByKeyword('drink', dish.keyword);
+                }
+            }
+            
+            if (savedData.dessert) {
+                const dish = findDishByKeyword(savedData.dessert);
+                if (dish) {
+                    selectedDishes.dessert = dish;
+                    highlightSelectedCardByKeyword('dessert', dish.keyword);
+                }
+            }
+            
+            // Обновляем отображение
+            updateSelectedDishesDisplay();
         }
         
         // Функция для обновления отображения выбранных блюд
@@ -257,60 +310,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Функция для загрузки сохраненных блюд
-        function loadSavedDishes() {
-            if (!window.storageManager) return;
-            
-            const savedData = window.storageManager.loadSelectedDishes();
-            if (!savedData) return;
-            
-            console.log('Загружаем сохраненные блюда:', savedData);
-            
-            // Восстанавливаем выбранные блюда
-            if (savedData.soup) {
-                const dish = findDishByKeyword(savedData.soup);
-                if (dish) {
-                    selectedDishes.soup = dish;
-                    highlightSelectedCardByKeyword('soup', dish.keyword);
-                }
-            }
-            
-            if (savedData.main) {
-                const dish = findDishByKeyword(savedData.main);
-                if (dish) {
-                    selectedDishes.main = dish;
-                    highlightSelectedCardByKeyword('main', dish.keyword);
-                }
-            }
-            
-            if (savedData.salad) {
-                const dish = findDishByKeyword(savedData.salad);
-                if (dish) {
-                    selectedDishes.salad = dish;
-                    highlightSelectedCardByKeyword('salad', dish.keyword);
-                }
-            }
-            
-            if (savedData.drink) {
-                const dish = findDishByKeyword(savedData.drink);
-                if (dish) {
-                    selectedDishes.drink = dish;
-                    highlightSelectedCardByKeyword('drink', dish.keyword);
-                }
-            }
-            
-            if (savedData.dessert) {
-                const dish = findDishByKeyword(savedData.dessert);
-                if (dish) {
-                    selectedDishes.dessert = dish;
-                    highlightSelectedCardByKeyword('dessert', dish.keyword);
-                }
-            }
-            
-            // Обновляем отображение
-            updateSelectedDishesDisplay();
-        }
-        
         // Функция для подсветки карточки по keyword
         function highlightSelectedCardByKeyword(category, keyword) {
             const allCards = document.querySelectorAll(`.dish-card[data-category="${category}"]`);
@@ -374,6 +373,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 handleDishClick(event);
             }
         });
+        
+        // Загружаем сохраненные блюда
+        loadSavedDishes();
         
         // Инициализируем отображение
         updateSelectedDishesDisplay();

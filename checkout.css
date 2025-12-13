@@ -132,6 +132,10 @@
     display: none; /* По умолчанию скрыта */
 }
 
+.checkout-panel.visible {
+    display: flex;
+}
+
 .checkout-panel .total {
     font-size: 1.5rem;
     font-weight: bold;
