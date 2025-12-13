@@ -1,15 +1,7 @@
-// checkout.js - ОБНОВЛЕННАЯ ВЕРСИЯ
+// checkout.js
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Страница оформления заказа загружена');
-    
-    // Константы для API
-    const API_KEY_STORAGE = 'api_key_storage';
-    const BASE_URL = 'https://edu.std-900.ist.mospolytech.ru';
-    
-    // Переменные
-    let apiKey = localStorage.getItem(API_KEY_STORAGE);
-    let currentOrder = null;
     
     // Ждем, пока блюда будут загружены
     const checkDishesLoaded = setInterval(() => {
@@ -49,36 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
             backButton.addEventListener('click', function() {
                 window.location.href = 'lunch.html';
             });
-        }
-        
-        // Проверяем и запрашиваем API ключ при необходимости
-        checkApiKey();
-    }
-    
-    // Проверка API ключа
-    function checkApiKey() {
-        if (!apiKey) {
-            showApiKeyPrompt();
-        }
-    }
-    
-    // Показать запрос API ключа
-    function showApiKeyPrompt() {
-        const userKey = prompt('Для оформления заказа необходим API ключ.\n\nВведите ваш API ключ (получите его в СДО Московского Политеха):');
-        
-        if (userKey && userKey.trim()) {
-            // Проверка формата UUID
-            const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-            if (uuidRegex.test(userKey.trim())) {
-                apiKey = userKey.trim();
-                localStorage.setItem(API_KEY_STORAGE, apiKey);
-                showNotification('API ключ сохранен', 'success');
-            } else {
-                alert('Неверный формат API ключа. Используйте формат UUID.\nПример: 123e4567-e89b-12d3-a456-426655440000');
-                showApiKeyPrompt();
-            }
-        } else {
-            alert('Без API ключа невозможно оформить заказ. Вы можете ввести его позже.');
         }
     }
     
@@ -222,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (dish) {
                 if (nameElement) nameElement.textContent = dish.name;
                 if (priceElement) priceElement.textContent = `${dish.price} ₽`;
-                if (hiddenField) hiddenField.value = getDishId(dish);
+                if (hiddenField) hiddenField.value = this.getDishId(dish);
                 if (categoryElement) categoryElement.style.display = 'block';
             }
         } else {
@@ -233,10 +195,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Функция для получения ID блюда
+    // Функция для получения ID блюда (в реальном API это было бы числовое ID)
     function getDishId(dish) {
-        // Пытаемся получить числовой ID, если нет - используем keyword
-        return dish.id || dish.keyword;
+        // В реальном приложении здесь бы было dish.id
+        // Поскольку у нас нет числовых ID, используем keyword
+        // В реальном API нужно будет преобразовать keyword в ID
+        return dish.keyword;
     }
     
     // Функция для скрытия всех категорий в форме
@@ -288,22 +252,13 @@ document.addEventListener('DOMContentLoaded', function() {
             // Проверяем валидность комбо
             const savedData = window.storageManager.loadSelectedDishes();
             if (!savedData || !isValidCombo(savedData)) {
-                showNotification('Пожалуйста, выберите валидный набор блюд (комбо) перед оформлением заказа.', 'error');
+                alert('Пожалуйста, выберите валидный набор блюд (комбо) перед оформлением заказа.');
                 return;
             }
             
             // Проверяем обязательные поля формы
             if (!validateForm()) {
                 return;
-            }
-            
-            // Проверяем API ключ
-            if (!apiKey) {
-                showApiKeyPrompt();
-                if (!apiKey) {
-                    showNotification('Без API ключа невозможно оформить заказ.', 'error');
-                    return;
-                }
             }
             
             // Отправляем заказ
@@ -352,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (const fieldId of requiredFields) {
             const field = document.getElementById(fieldId);
             if (!field || !field.value.trim()) {
-                showNotification(`Пожалуйста, заполните поле: ${field.previousElementSibling.textContent}`, 'error');
+                alert(`Пожалуйста, заполните поле: ${field.previousElementSibling.textContent}`);
                 field.focus();
                 return false;
             }
@@ -362,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const emailField = document.getElementById('email-checkout');
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(emailField.value)) {
-            showNotification('Пожалуйста, введите корректный email адрес', 'error');
+            alert('Пожалуйста, введите корректный email адрес');
             emailField.focus();
             return false;
         }
@@ -372,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (specificTimeRadio && specificTimeRadio.checked) {
             const timeField = document.getElementById('delivery_time');
             if (!timeField.value) {
-                showNotification('Пожалуйста, укажите время доставки', 'error');
+                alert('Пожалуйста, укажите время доставки');
                 timeField.focus();
                 return false;
             }
@@ -380,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Проверяем, что время в пределах 07:00-23:00
             const [hours, minutes] = timeField.value.split(':').map(Number);
             if (hours < 7 || hours > 23) {
-                showNotification('Время доставки должно быть между 07:00 и 23:00', 'error');
+                alert('Время доставки должно быть между 07:00 и 23:00');
                 timeField.focus();
                 return false;
             }
@@ -395,8 +350,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Получаем данные формы
             const formData = getFormData();
             
+            // Получаем API ключ (в реальном приложении это был бы уникальный ключ пользователя)
+            // Для примера используем тестовый ключ
+            const apiKey = '123e4567-e89b-12d3-a456-426655440000';
+            
             // URL API для создания заказа
-            const apiUrl = `${BASE_URL}/labs/api/orders?api_key=${apiKey}`;
+            const apiUrl = `https://edu.std-900.ist.mospolytech.ru/labs/api/orders?api_key=${apiKey}`;
             
             console.log('Отправка заказа на:', apiUrl);
             console.log('Данные заказа:', formData);
@@ -411,8 +370,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.error || `Ошибка HTTP: ${response.status}`);
+                throw new Error(`Ошибка HTTP: ${response.status}`);
             }
             
             const result = await response.json();
@@ -422,16 +380,14 @@ document.addEventListener('DOMContentLoaded', function() {
             window.storageManager.clearSelectedDishes();
             
             // Показываем сообщение об успехе
-            showNotification('Заказ успешно оформлен! Спасибо за заказ.', 'success');
+            alert('Заказ успешно оформлен! Спасибо за заказ.');
             
-            // Через 2 секунды перенаправляем на страницу заказов
-            setTimeout(() => {
-                window.location.href = 'orders.html';
-            }, 2000);
+            // Перенаправляем на главную страницу
+            window.location.href = 'index.html';
             
         } catch (error) {
             console.error('Ошибка при оформлении заказа:', error);
-            showNotification(`Ошибка при оформлении заказа: ${error.message}`, 'error');
+            alert(`Ошибка при оформлении заказа: ${error.message}\nПожалуйста, попробуйте еще раз.`);
         }
     }
     
@@ -449,27 +405,27 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (savedData.soup) {
             const dish = dishes.find(d => d.keyword === savedData.soup);
-            if (dish) soupId = getDishId(dish);
+            if (dish) soupId = this.getDishId(dish);
         }
         
         if (savedData.main) {
             const dish = dishes.find(d => d.keyword === savedData.main);
-            if (dish) mainCourseId = getDishId(dish);
+            if (dish) mainCourseId = this.getDishId(dish);
         }
         
         if (savedData.salad) {
             const dish = dishes.find(d => d.keyword === savedData.salad);
-            if (dish) saladId = getDishId(dish);
+            if (dish) saladId = this.getDishId(dish);
         }
         
         if (savedData.drink) {
             const dish = dishes.find(d => d.keyword === savedData.drink);
-            if (dish) drinkId = getDishId(dish);
+            if (dish) drinkId = this.getDishId(dish);
         }
         
         if (savedData.dessert) {
             const dish = dishes.find(d => d.keyword === savedData.dessert);
-            if (dish) dessertId = getDishId(dish);
+            if (dish) dessertId = this.getDishId(dish);
         }
         
         // Собираем данные формы
@@ -496,55 +452,5 @@ document.addEventListener('DOMContentLoaded', function() {
         if (dessertId) formData.dessert_id = dessertId;
         
         return formData;
-    }
-    
-    // Функция для показа уведомлений
-    function showNotification(message, type = 'info') {
-        // Создаем элемент уведомления, если его нет
-        let notification = document.getElementById('checkout-notification');
-        if (!notification) {
-            notification = document.createElement('div');
-            notification.id = 'checkout-notification';
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 25px;
-                border-radius: 8px;
-                color: white;
-                font-weight: 500;
-                z-index: 1000;
-                animation: slideInRight 0.3s ease;
-                display: none;
-            `;
-            document.body.appendChild(notification);
-            
-            // Добавляем стили для анимации
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideInRight {
-                    from {
-                        opacity: 0;
-                        transform: translateX(100px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateX(0);
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-        
-        // Устанавливаем тип и сообщение
-        notification.textContent = message;
-        notification.style.backgroundColor = type === 'success' ? '#2ecc71' : 
-                                          type === 'error' ? '#e74c3c' : '#3498db';
-        notification.style.display = 'block';
-        
-        // Автоматическое скрытие через 5 секунд
-        setTimeout(() => {
-            notification.style.display = 'none';
-        }, 5000);
     }
 });

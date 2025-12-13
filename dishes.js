@@ -1,4 +1,4 @@
-// dishes.js - ОБНОВЛЕННАЯ ВЕРСИЯ
+// dishes.js
 
 // Глобальная переменная для хранения блюд
 window.dishesData = [];
@@ -12,14 +12,4 @@ window.setDishes = function(newDishes) {
 // Функция для получения блюд
 window.getDishes = function() {
     return window.dishesData;
-};
-
-// Функция для поиска блюда по ID
-window.getDishById = function(id) {
-    return window.dishesData.find(dish => dish.id == id);
-};
-
-// Функция для поиска блюда по keyword
-window.getDishByKeyword = function(keyword) {
-    return window.dishesData.find(dish => dish.keyword === keyword);
 };
