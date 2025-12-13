@@ -267,3 +267,49 @@ footer h2 {
         padding: 8px;
     }
 }
+
+/* Добавьте в конец style.css */
+
+/* Стили для состояния загрузки */
+.loading-message {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 1.2rem;
+    grid-column: 1 / -1;
+}
+
+.no-dishes, .no-data-message {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-style: italic;
+    grid-column: 1 / -1;
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+    border-left: 4px solid #c62828;
+    grid-column: 1 / -1;
+}
+
+/* Анимация спиннера */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}

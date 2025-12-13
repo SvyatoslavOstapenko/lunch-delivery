@@ -6,9 +6,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const dishes = window.getDishes ? window.getDishes() : [];
         if (dishes.length > 0) {
             clearInterval(checkDishesLoaded);
+            console.log('Блюда загружены, инициализируем выбор блюд...');
             initSelectDishes();
         }
-    }, 100);
+    }, 500);
     
     function initSelectDishes() {
         // Объект для хранения выбранных блюд

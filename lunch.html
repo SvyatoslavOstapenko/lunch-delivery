@@ -375,9 +375,18 @@
     <script src="dishes.js"></script>
     <script src="loadDishes.js"></script>
     <script src="displayDishes.js"></script>
-    <script src="selectDishes.js"></script>
     <script src="filterDishes.js"></script>
+    <script src="selectDishes.js"></script>
     <script src="form.js"></script>
     <script src="notifications.js"></script>
+
+    <!-- Инициализация после загрузки -->
+    <script>
+        // Дополнительная проверка после загрузки
+        window.addEventListener('load', function() {
+            console.log('Страница полностью загружена');
+            console.log('Доступно блюд:', window.getDishes ? window.getDishes().length : 0);
+        });
+    </script>
 </body>
 </html>
