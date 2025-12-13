@@ -1,5 +1,6 @@
 // loadDishes.js
 
+// loadDishes.js - обновляем функцию loadDishesFromAPI
 async function loadDishesFromAPI() {
     try {
         // Определяем URL API
@@ -26,12 +27,9 @@ async function loadDishesFromAPI() {
             if (category === 'main-course') {
                 category = 'main';
             }
-            // category: 'salad' уже подходит
-            // category: 'drink' уже подходит
-            // category: 'dessert' уже подходит
-            // category: 'soup' уже подходит
             
             return {
+                id: item.id, // Добавляем ID из API
                 keyword: item.keyword,
                 name: item.name,
                 price: item.price,
@@ -43,16 +41,32 @@ async function loadDishesFromAPI() {
         });
         
         console.log('Преобразовано блюд:', transformedData.length);
-        console.log('Пример преобразованного блюда:', transformedData[0]);
         
         return transformedData;
         
     } catch (error) {
         console.error('Ошибка загрузки данных с API:', error);
         
-        // Возвращаем тестовые данные в случае ошибки
+        // Возвращаем тестовые данные с ID в случае ошибки
         return getTestDishes();
     }
+}
+
+// Обновляем тестовые данные с ID
+function getTestDishes() {
+    return [
+        {
+            id: 1,
+            keyword: "gaspacho",
+            name: "Гаспачо",
+            price: 195,
+            category: "soup",
+            count: "350 г",
+            image: "https://edu.std-900.ist.mospolytech.ru/labs/api/images/soups/gazpacho",
+            kind: "veg"
+        },
+        // ... остальные блюда с id
+    ];
 }
 
 // Функция с тестовыми данными на случай ошибки API

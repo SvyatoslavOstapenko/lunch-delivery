@@ -345,34 +345,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Функция для отправки заказа на сервер
+    // checkout.js - обновленная функция submitOrder
     async function submitOrder() {
         try {
             // Получаем данные формы
             const formData = getFormData();
-            
-            // Получаем API ключ (в реальном приложении это был бы уникальный ключ пользователя)
-            // Для примера используем тестовый ключ
-            const apiKey = '123e4567-e89b-12d3-a456-426655440000';
-            
+        
+         // Проверяем, есть ли API_KEY
+            const apiKey = window.API_CONFIG ? window.API_CONFIG.API_KEY : null;
+            if (!apiKey) {
+            throw new Error('API ключ не настроен. Пожалуйста, настройте config.js');
+            }
+        
             // URL API для создания заказа
-            const apiUrl = `https://edu.std-900.ist.mospolytech.ru/labs/api/orders?api_key=${apiKey}`;
-            
+            const apiUrl = `${window.API_CONFIG.BASE_URL}/labs/api/orders?api_key=${apiKey}`;
+        
             console.log('Отправка заказа на:', apiUrl);
             console.log('Данные заказа:', formData);
-            
+        
             // Отправляем POST запрос
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData)
             });
-            
+        
             if (!response.ok) {
-                throw new Error(`Ошибка HTTP: ${response.status}`);
+                const errorData = await response.json();
+                throw new Error(errorData.error || `Ошибка HTTP: ${response.status}`);
             }
-            
+        
             const result = await response.json();
             console.log('Заказ успешно создан:', result);
             
@@ -380,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.storageManager.clearSelectedDishes();
             
             // Показываем сообщение об успехе
-            alert('Заказ успешно оформлен! Спасибо за заказ.');
+            alert('Заказ успешно оформлен! Номер заказа: ' + (result.id || 'получен'));
             
             // Перенаправляем на главную страницу
             window.location.href = 'index.html';
