@@ -3,207 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Собрать ланч</title>
-    <link rel="stylesheet" href="lunch.css">
+    <title>Собрать ланч - SvyatLunch Delivery</title>
+    <!-- Подключение Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Подключение CSS -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="lunch.css">
 </head>
 <body>
-    <div class="header">
-        <h1>Сервис заказа ланчей</h1>
-    </div>
+    <!-- Шапка сайта -->
+    <header>
+        <div class="container">
+            <h1>Собрать ланч</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="lunch.html" id="active">Собрать ланч</a></li>
+                    <li><a href="checkout.html">Оформить заказ</a></li>
+                    <li><a href="#soups">Супы</a></li>
+                    <li><a href="#main-courses">Главные блюда</a></li>
+                    <li><a href="#salads">Салаты</a></li>
+                    <li><a href="#drinks">Напитки</a></li>
+                    <li><a href="#desserts">Десерты</a></li>
+                    <li><a href="#lunch-combos">Варианты ланча</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    <div class="container">
-        <nav class="main-nav">
-            <a href="index.html" class="nav-link">Главная</a>
-            <a href="lunch.html" class="nav-link active">Собрать ланч</a>
-            <a href="checkout.html" class="nav-link">Оформить заказ</a>
-        </nav>
-
-        <main class="main-content">
-            <div class="lunch-builder">
-                <div class="dishes-section">
-                    <section class="category-section">
-                        <h2>Супы</h2>
-                        <div class="filter-buttons">
-                            <button class="filter-btn active" data-category="soup" data-type="all">Все</button>
-                            <button class="filter-btn" data-category="soup" data-type="fish">Рыбный</button>
-                            <button class="filter-btn" data-category="soup" data-type="meat">Мясной</button>
-                            <button class="filter-btn" data-category="soup" data-type="vegetarian">Вегетарианский</button>
-                        </div>
-                        <div class="dishes-grid soup-grid" id="soup-grid"></div>
-                    </section>
-
-                    <section class="category-section">
-                        <h2>Главные блюда</h2>
-                        <div class="filter-buttons">
-                            <button class="filter-btn active" data-category="main" data-type="all">Все</button>
-                            <button class="filter-btn" data-category="main" data-type="fish">Рыбное</button>
-                            <button class="filter-btn" data-category="main" data-type="meat">Мясное</button>
-                            <button class="filter-btn" data-category="main" data-type="vegetarian">Вегетарианское</button>
-                        </div>
-                        <div class="dishes-grid main-grid" id="main-grid"></div>
-                    </section>
-
-                    <section class="category-section">
-                        <h2>Салаты и стартеры</h2>
-                        <div class="filter-buttons">
-                            <button class="filter-btn active" data-category="salad" data-type="all">Все</button>
-                            <button class="filter-btn" data-category="salad" data-type="fish">Рыбный</button>
-                            <button class="filter-btn" data-category="salad" data-type="meat">Мясной</button>
-                            <button class="filter-btn" data-category="salad" data-type="vegetarian">Вегетарианский</button>
-                        </div>
-                        <div class="dishes-grid salad-grid" id="salad-grid"></div>
-                    </section>
-
-                    <section class="category-section">
-                        <h2>Напитки</h2>
-                        <div class="filter-buttons">
-                            <button class="filter-btn active" data-category="drink" data-type="all">Все</button>
-                            <button class="filter-btn" data-category="drink" data-type="cold">Холодный</button>
-                            <button class="filter-btn" data-category="drink" data-type="hot">Горячий</button>
-                        </div>
-                        <div class="dishes-grid drink-grid" id="drink-grid"></div>
-                    </section>
-
-                    <section class="category-section">
-                        <h2>Десерты</h2>
-                        <div class="filter-buttons">
-                            <button class="filter-btn active" data-category="dessert" data-type="all">Все</button>
-                            <button class="filter-btn" data-category="dessert" data-type="small">Маленькая порция</button>
-                            <button class="filter-btn" data-category="dessert" data-type="medium">Средняя порция</button>
-                            <button class="filter-btn" data-category="dessert" data-type="large">Большая порция</button>
-                        </div>
-                        <div class="dishes-grid dessert-grid" id="dessert-grid"></div>
-                    </section>
+    <!-- Основное содержимое -->
+    <main>
+        <div class="container">
+            <!-- Блок с супами -->
+            <section id="soups">
+                <h2>Супы</h2>
+                <div class="filter-buttons" data-category="soup">
+                    <button class="filter-btn active" data-kind="all">Все</button>
+                    <button class="filter-btn" data-kind="fish">Рыбный</button>
+                    <button class="filter-btn" data-kind="meat">Мясной</button>
+                    <button class="filter-btn" data-kind="veg">Вегетарианский</button>
                 </div>
+                <div class="dishes-grid">
+                    <!-- Блюда будут добавлены динамически -->
+                </div>
+            </section>
 
-                <aside class="order-sidebar">
-                    <div class="lunch-combos">
-                        <h3>Варианты ланча</h3>
-                        <div class="combo-list">
-                            <div class="combo-item">
-                                <span class="combo-number">1</span>
-                                <ul>
-                                    <li>Суп</li>
-                                    <li>Главное блюдо</li>
-                                    <li>Салат</li>
-                                    <li>Напиток</li>
-                                    <li><em>*Десерт можно добавить к любому варианту</em></li>
-                                </ul>
-                            </div>
-                            <div class="combo-item">
-                                <span class="combo-number">2</span>
-                                <ul>
-                                    <li>Суп</li>
-                                    <li>Главное блюдо</li>
-                                    <li>Напиток</li>
-                                    <li><em>*Десерт можно добавить к любому варианту</em></li>
-                                </ul>
-                            </div>
-                            <div class="combo-item">
-                                <span class="combo-number">3</span>
-                                <ul>
-                                    <li>Суп</li>
-                                    <li>Салат</li>
-                                    <li>Напиток</li>
-                                    <li><em>*Десерт можно добавить к любому варианту</em></li>
-                                </ul>
-                            </div>
-                            <div class="combo-item">
-                                <span class="combo-number">4</span>
-                                <ul>
-                                    <li>Главное блюдо</li>
-                                    <li>Салат</li>
-                                    <li>Напиток</li>
-                                    <li><em>*Десерт можно добавить к любому варианту</em></li>
-                                </ul>
-                            </div>
-                            <div class="combo-item">
-                                <span class="combo-number">5</span>
-                                <ul>
-                                    <li>Главное блюдо</li>
-                                    <li>Напиток</li>
-                                    <li><em>*Десерт можно добавить к любому варианту</em></li>
-                                </ul>
-                            </div>
+            <!-- Блок с главными блюдами -->
+            <section id="main-courses">
+                <h2>Главные блюда</h2>
+                <div class="filter-buttons" data-category="main">
+                    <button class="filter-btn active" data-kind="all">Все</button>
+                    <button class="filter-btn" data-kind="fish">Рыбное</button>
+                    <button class="filter-btn" data-kind="meat">Мясное</button>
+                    <button class="filter-btn" data-kind="veg">Вегетарианское</button>
+                </div>
+                <div class="dishes-grid">
+                    <!-- Блюда будут добавлены динамически -->
+                </div>
+            </section>
+
+            <!-- Блок с салатами и стартерами -->
+            <section id="salads">
+                <h2>Салаты и стартеры</h2>
+                <div class="filter-buttons" data-category="salad">
+                    <button class="filter-btn active" data-kind="all">Все</button>
+                    <button class="filter-btn" data-kind="fish">Рыбный</button>
+                    <button class="filter-btn" data-kind="meat">Мясной</button>
+                    <button class="filter-btn" data-kind="veg">Вегетарианский</button>
+                </div>
+                <div class="dishes-grid">
+                    <!-- Блюда будут добавлены динамически -->
+                </div>
+            </section>
+
+            <!-- Блок с напитками -->
+            <section id="drinks">
+                <h2>Напитки</h2>
+                <div class="filter-buttons" data-category="drink">
+                    <button class="filter-btn active" data-kind="all">Все</button>
+                    <button class="filter-btn" data-kind="cold">Холодный</button>
+                    <button class="filter-btn" data-kind="hot">Горячий</button>
+                </div>
+                <div class="dishes-grid">
+                    <!-- Блюда будут добавлены динамически -->
+                </div>
+            </section>
+
+            <!-- Блок с десертами -->
+            <section id="desserts">
+                <h2>Десерты</h2>
+                <div class="filter-buttons" data-category="dessert">
+                    <button class="filter-btn active" data-kind="all">Все</button>
+                    <button class="filter-btn" data-kind="small">Маленькая порция</button>
+                    <button class="filter-btn" data-kind="medium">Средняя порция</button>
+                    <button class="filter-btn" data-kind="large">Большая порция</button>
+                </div>
+                <div class="dishes-grid">
+                    <!-- Блюда будут добавлены динамически -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Блок с вариантами ланча -->
+    <section id="lunch-combos">
+        <div class="container">
+            <h2>Варианты ланча</h2>
+            <div class="combos-grid">
+                <!-- Комбо 1 -->
+                <div class="combo">
+                    <div class="combo-dishes">
+                        <div class="combo-dish">
+                            <img src="images/soup.png" alt="Суп">
+                            <span>Суп</span>
+                        </div>
+                        <div class="combo-dish">
+                            <img src="images/main.png" alt="Главное блюдо">
+                            <span>Главное блюдо</span>
+                        </div>
+                        <div class="combo-dish">
+                            <img src="images/salad.png" alt="Салат">
+                            <span>Салат</span>
+                        </div>
+                        <div class="combo-dish">
+                            <img src="images/drink.png" alt="Напиток">
+                            <span>Напиток</span>
                         </div>
                     </div>
+                    <p class="combo-info">*Десерт можно добавить к любому варианту</p>
+                </div>
+                
+                <!-- Комбо 2 -->
+                <div class="combo">
+                    <div class="combo-dishes">
+                        <div class="combo-dish">
+                            <img src="images/soup.png" alt="Суп">
+                            <span>Суп</span>
+                        </div>
+                        <div class="combo-dish">
+                            <img src="images/main.png" alt="Главное блюдо">
+                            <span>Главное блюдо</span>
+                        </div>
+                        <div class="combo-dish">
+                            <img src="images/drink.png" alt="Напиток">
+                            <span>Напиток</span>
+                        </div>
+                    </div>
+                    <p class="combo-info">*Десерт можно добавить к любому варианту</p>
+                </div>
+                
+                <!-- Комбо 3 -->
+                <div class="combo">
+                    <div class="combo-dishes">
+                        <div class="combo-dish">
+                            <img src="images/soup.png" alt="Суп">
+                            <span>Суп</span>
+                        </div>
+                        <div class="combo-dish">
+                            <img src="images/salad.png" alt="Салат">
+                            <span>Салат</span>
+                        </div>
+                        <div class="combo-dish">
+                            <img src="images/drink.png" alt="Напиток">
+                            <span>Напиток</span>
+                        </div>
+                    </div>
+                    <p class="combo-info">*Десерт можно добавить к любому варианту</p>
+                </div>
+                
+                <!-- Комбо 4 -->
+                <div class="combo">
+                    <div class="combo-dishes">
+                        <div class="combo-dish">
+                            <img src="images/main.png" alt="Главное блюдо">
+                            <span>Главное блюдо</span>
+                        </div>
+                        <div class="combo-dish">
+                            <img src="images/salad.png" alt="Салат">
+                            <span>Салат</span>
+                        </div>
+                        <div class="combo-dish">
+                            <img src="images/drink.png" alt="Напиток">
+                            <span>Напиток</span>
+                        </div>
+                    </div>
+                    <p class="combo-info">*Десерт можно добавить к любому варианту</p>
+                </div>
+                
+                <!-- Комбо 5 -->
+                <div class="combo">
+                    <div class="combo-dishes">
+                        <div class="combo-dish">
+                            <img src="images/main.png" alt="Главное блюдо">
+                            <span>Главное блюдо</span>
+                        </div>
+                        <div class="combo-dish">
+                            <img src="images/drink.png" alt="Напиток">
+                            <span>Напиток</span>
+                        </div>
+                    </div>
+                    <p class="combo-info">*Десерт можно добавить к любому варианту</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <div id="order-section">
+    <!-- Форма заказа -->
+    <section id="order-form">
+        <div class="container">
+            <h2>Оформление заказа</h2>
+            <form id="orderForm" action="https://httpbin.org/post" method="POST">
+                <div class="form-columns">
+                    <!-- Левая колонка - Заказ -->
+                    <div class="form-column">
                         <h3>Ваш заказ</h3>
                         
-                        <div id="nothing-selected" class="order-status">
-                            Ничего не выбрано
+                        <!-- Состояние: ничего не выбрано -->
+                        <div id="nothing-selected">
+                            <p>Ничего не выбрано</p>
                         </div>
-
-                        <div class="soup-category order-category" style="display: none;">
-                            <h4>Суп:</h4>
-                            <p id="selected-soup">Блюдо не выбрано</p>
-                            <p class="price" id="selected-soup-price">0 ₽</p>
+                        
+                        <!-- Выбранные блюда будут отображаться здесь -->
+                        <div class="selected-dishes">
+                            <!-- Супы -->
+                            <div class="form-group soup-category" style="display: none;">
+                                <label>Суп:</label>
+                                <div class="selected-item">
+                                    <span id="selected-soup">Блюдо не выбрано</span>
+                                    <span id="selected-soup-price" class="selected-price">0 ₽</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Главные блюда -->
+                            <div class="form-group main-category" style="display: none;">
+                                <label>Главное блюдо:</label>
+                                <div class="selected-item">
+                                    <span id="selected-main">Блюдо не выбрано</span>
+                                    <span id="selected-main-price" class="selected-price">0 ₽</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Салаты -->
+                            <div class="form-group salad-category" style="display: none;">
+                                <label>Салат или стартер:</label>
+                                <div class="selected-item">
+                                    <span id="selected-salad">Блюдо не выбрано</span>
+                                    <span id="selected-salad-price" class="selected-price">0 ₽</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Напитки -->
+                            <div class="form-group drink-category" style="display: none;">
+                                <label>Напиток:</label>
+                                <div class="selected-item">
+                                    <span id="selected-drink">Напиток не выбран</span>
+                                    <span id="selected-drink-price" class="selected-price">0 ₽</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Десерты -->
+                            <div class="form-group dessert-category" style="display: none;">
+                                <label>Десерт:</label>
+                                <div class="selected-item">
+                                    <span id="selected-dessert">Десерт не выбран</span>
+                                    <span id="selected-dessert-price" class="selected-price">0 ₽</span>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="main-category order-category" style="display: none;">
-                            <h4>Главное блюдо:</h4>
-                            <p id="selected-main">Блюдо не выбрано</p>
-                            <p class="price" id="selected-main-price">0 ₽</p>
+                        
+                        <!-- Общая стоимость -->
+                        <div id="total-cost-container" class="total-cost-container" style="display: none;">
+                            <div class="form-group">
+                                <label>Общая стоимость:</label>
+                                <div class="selected-item">
+                                    <span id="total-cost">0 ₽</span>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="salad-category order-category" style="display: none;">
-                            <h4>Салат или стартер:</h4>
-                            <p id="selected-salad">Блюдо не выбрано</p>
-                            <p class="price" id="selected-salad-price">0 ₽</p>
+                        
+                        <!-- Скрытые поля для отправки данных -->
+                        <input type="hidden" id="hidden-soup" name="soup" value="">
+                        <input type="hidden" id="hidden-main" name="main_course" value="">
+                        <input type="hidden" id="hidden-salad" name="salad" value="">
+                        <input type="hidden" id="hidden-drink" name="drink" value="">
+                        <input type="hidden" id="hidden-dessert" name="dessert" value="">
+                        <input type="hidden" id="hidden-total" name="total" value="0">
+                        
+                        <div class="form-group">
+                            <label for="comment">Комментарий к заказу:</label>
+                            <textarea id="comment" name="comment" rows="3" placeholder="Ваши пожелания..."></textarea>
                         </div>
-
-                        <div class="drink-category order-category" style="display: none;">
-                            <h4>Напиток:</h4>
-                            <p id="selected-drink">Напиток не выбран</p>
-                            <p class="price" id="selected-drink-price">0 ₽</p>
-                        </div>
-
-                        <div class="dessert-category order-category" style="display: none;">
-                            <h4>Десерт:</h4>
-                            <p id="selected-dessert">Десерт не выбран</p>
-                            <p class="price" id="selected-dessert-price">0 ₽</p>
-                        </div>
-
-                        <div id="total-cost-container" class="total-cost-section" style="display: none;">
-                            <h4>Общая стоимость:</h4>
-                            <p id="total-cost" class="total-price">0 ₽</p>
-                        </div>
-
-                        <textarea id="order-comment" placeholder="Комментарий к заказу:"></textarea>
                     </div>
-
-                    <!-- Панель для перехода к оформлению -->
-                    <div id="checkout-panel" class="checkout-panel" style="display: none;">
-                        <div class="checkout-info">
-                            <span class="checkout-label">Итого:</span>
-                            <span id="total-cost-panel" class="checkout-total">0 ₽</span>
+                    
+                    <!-- Правая колонка - Данные клиента -->
+                    <div class="form-column">
+                        <h3>Данные для доставки</h3>
+                        
+                        <div class="form-group">
+                            <label for="name">Имя:</label>
+                            <input type="text" id="name" name="name" required placeholder="Введите ваше имя">
                         </div>
-                        <a href="checkout.html" id="checkout-link" class="checkout-btn">Перейти к оформлению</a>
-                        <p id="invalid-combo-message" class="invalid-message" style="display: none;">
-                            Выберите валидный набор блюд для оформления заказа
-                        </p>
+                        
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required placeholder="example@mail.com">
+                        </div>
+                        
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="newsletter" name="newsletter" checked>
+                            <label for="newsletter">Хочу получать информацию о новинках и акциях</label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Телефон:</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+7 (900) 123-45-67">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">Адрес доставки:</label>
+                            <input type="text" id="address" name="address" required placeholder="Улица, дом, квартира">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Время доставки:</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="delivery_time" value="asap" required checked>
+                                    Как можно скорее
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="delivery_time" value="specific" id="specific_time_radio">
+                                    Ко времени
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group time-group" id="time_input_group">
+                            <label for="specific_time">Укажите время:</label>
+                            <input type="time" id="specific_time" name="specific_time" 
+                                   min="07:00" max="23:00" step="300">
+                        </div>
                     </div>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="reset" class="reset-btn">Сбросить</button>
+                    <button type="submit" class="submit-btn">Отправить заказ</button>
+                </div>
+            </form>
+        </div>
+    </section>
 
-                    <input type="hidden" id="hidden-soup">
-                    <input type="hidden" id="hidden-main">
-                    <input type="hidden" id="hidden-salad">
-                    <input type="hidden" id="hidden-drink">
-                    <input type="hidden" id="hidden-dessert">
-                    <input type="hidden" id="hidden-total">
-                </aside>
+    <!-- Футер -->
+    <footer id="contacts">
+        <div class="container">
+            <h2>Контакты</h2>
+            <div class="contact-info">
+                <p>📞 Телефон: <a href="tel:+79003636836">+7 (900) 363-68-36</a></p>
+                <p>📧 Email: <a href="mailto:svyat.ostapenko@mail.ru">svyat.ostapenko@mail.ru</a></p>
+                <p>📍 Адрес: Москва, ул. 800-летия Москвы, д. 28</p>
+                <p>🕒 Время работы: Пн-Пт с 9:00 до 18:00</p>
             </div>
-        </main>
+            <p class="copyright">&copy; 2025 SvyatLunch Delivery. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Панель для перехода к оформлению -->
+    <div id="checkout-panel" class="checkout-panel">
+        <div class="panel-content">
+            <div class="total">Итого: <span id="total-cost-panel">0 ₽</span></div>
+            <div class="invalid-combo" id="invalid-combo-message">
+                Выберите валидный набор блюд для оформления заказа
+            </div>
+        </div>
+        <a href="#" id="checkout-link" class="checkout-link disabled">Перейти к оформлению</a>
     </div>
 
+    <!-- Подключение JavaScript -->
     <script src="dishes.js"></script>
     <script src="loadDishes.js"></script>
+    <script src="storage.js"></script>
     <script src="displayDishes.js"></script>
     <script src="filterDishes.js"></script>
-    <script src="storage.js"></script>
     <script src="selectDishes.js"></script>
     <script src="form.js"></script>
     <script src="notifications.js"></script>
+
+    <!-- Инициализация после загрузки -->
+    <script>
+        // Дополнительная проверка после загрузки
+        window.addEventListener('load', function() {
+            console.log('Страница полностью загружена');
+            console.log('Доступно блюд:', window.getDishes ? window.getDishes().length : 0);
+        });
+    </script>
 </body>
 </html>

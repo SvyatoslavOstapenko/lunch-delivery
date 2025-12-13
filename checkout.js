@@ -2,7 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Страница оформления заказа загружена');
-
+    
     // Ждем, пока блюда будут загружены
     const checkDishesLoaded = setInterval(() => {
         const dishes = window.getDishes ? window.getDishes() : [];
@@ -12,29 +12,29 @@ document.addEventListener('DOMContentLoaded', function() {
             initCheckoutPage();
         }
     }, 500);
-
+    
     function initCheckoutPage() {
         // Загружаем сохраненные блюда
         const savedData = window.storageManager.loadSelectedDishes();
-
-        if (!savedData || (!savedData.soup && !savedData.main && !savedData.salad && !savedData.drink && !savedData.dessert)) {
+        
+        if (!savedData) {
             // Нет сохраненных данных
             showNothingSelected();
             return;
         }
-
+        
         // Отображаем выбранные блюда
         displaySelectedDishes(savedData);
-
+        
         // Обновляем форму заказа
         updateOrderForm(savedData);
-
+        
         // Инициализируем валидацию формы
         initFormValidation();
-
+        
         // Добавляем обработчики для кнопок удаления
-        initRemoveButtons(savedData);
-
+        initRemoveButtons();
+        
         // Добавляем обработчик для кнопки "Вернуться к выбору"
         const backButton = document.getElementById('back-to-lunch-btn');
         if (backButton) {
@@ -43,57 +43,45 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
-
+    
     // Функция для отображения сообщения "Ничего не выбрано"
     function showNothingSelected() {
         const container = document.getElementById('selected-dishes-container');
         const nothingSelected = document.getElementById('nothing-selected-checkout');
-
+        
         if (container && nothingSelected) {
             container.innerHTML = '';
             container.appendChild(nothingSelected);
             nothingSelected.style.display = 'block';
         }
-
+        
         // Скрываем блоки в форме
         hideAllFormCategories();
     }
-
-    // Функция для скрытия всех категорий в форме
-    function hideAllFormCategories() {
-        const categories = document.querySelectorAll('.order-category-checkout');
-        categories.forEach(cat => {
-            cat.style.display = 'none';
-        });
-
-        const totalContainer = document.getElementById('form-total-cost-container');
-        if (totalContainer) {
-            totalContainer.style.display = 'none';
-        }
-    }
-
+    
     // Функция для отображения выбранных блюд
     function displaySelectedDishes(savedData) {
         const container = document.getElementById('selected-dishes-container');
         if (!container) return;
-
+        
         // Очищаем контейнер
         container.innerHTML = '';
-
+        
         // Проверяем, есть ли вообще выбранные блюда
-        const hasSelection = savedData.soup || savedData.main || savedData.salad || savedData.drink || savedData.dessert;
-
+        const hasSelection = savedData.soup || savedData.main || savedData.salad || 
+                           savedData.drink || savedData.dessert;
+        
         if (!hasSelection) {
             showNothingSelected();
             return;
         }
-
+        
         // Скрываем сообщение "Ничего не выбрано"
         const nothingSelected = document.getElementById('nothing-selected-checkout');
         if (nothingSelected) {
             nothingSelected.style.display = 'none';
         }
-
+        
         // Отображаем каждое выбранное блюдо
         displayDishCategory('soup', savedData.soup, container);
         displayDishCategory('main', savedData.main, container);
@@ -101,16 +89,16 @@ document.addEventListener('DOMContentLoaded', function() {
         displayDishCategory('drink', savedData.drink, container);
         displayDishCategory('dessert', savedData.dessert, container);
     }
-
+    
     // Функция для отображения блюда определенной категории
     function displayDishCategory(category, dishKeyword, container) {
         if (!dishKeyword) return;
-
+        
         const dishes = window.getDishes ? window.getDishes() : [];
         const dish = dishes.find(d => d.keyword === dishKeyword);
-
+        
         if (!dish) return;
-
+        
         const categoryNames = {
             'soup': 'Суп',
             'main': 'Главное блюдо',
@@ -118,103 +106,42 @@ document.addEventListener('DOMContentLoaded', function() {
             'drink': 'Напиток',
             'dessert': 'Десерт'
         };
-
+        
         const card = document.createElement('div');
         card.className = 'dish-card-checkout';
         card.setAttribute('data-category', category);
         card.setAttribute('data-dish', dishKeyword);
-
+        
         // Используем изображение из API или дефолтное
         let imageUrl = dish.image || 'images/default-food.jpg';
-
+        
         card.innerHTML = `
-            <div class="dish-card-checkout-inner">
-                <img src="${imageUrl}" alt="${dish.name}" class="dish-image-checkout">
-                <div class="dish-info-checkout">
-                    <h4>${categoryNames[category]}</h4>
-                    <p class="dish-name">${dish.name}</p>
-                    <p class="dish-price">${dish.price} ₽</p>
-                    <button type="button" class="btn-remove" data-category="${category}" data-dish="${dishKeyword}">Удалить</button>
-                </div>
+            <img src="${imageUrl}" alt="${dish.name}" 
+                 onerror="this.onerror=null; this.src='images/default-food.jpg'">
+            <div class="dish-info">
+                <div class="dish-name">${categoryNames[category]}: ${dish.name}</div>
+                <div class="dish-details">${dish.count}</div>
+                <div class="dish-price">${dish.price} ₽</div>
             </div>
+            <button class="remove-btn" data-category="${category}">Удалить</button>
         `;
-
+        
         container.appendChild(card);
     }
-
+    
     // Функция для обновления формы заказа
     function updateOrderForm(savedData) {
         const dishes = window.getDishes ? window.getDishes() : [];
-
-        // Обновляем каждую категорию
+        let total = 0;
+        
+        // Обновляем каждую категорию в форме
         updateFormCategory('soup', savedData.soup, dishes);
         updateFormCategory('main', savedData.main, dishes);
         updateFormCategory('salad', savedData.salad, dishes);
         updateFormCategory('drink', savedData.drink, dishes);
         updateFormCategory('dessert', savedData.dessert, dishes);
-
-        // Обновляем итоговую стоимость
-        updateFormTotalCost(savedData, dishes);
-    }
-
-    // Функция для обновления конкретной категории в форме
-    function updateFormCategory(category, dishKeyword, dishes) {
-        const categoryClasses = {
-            'soup': '.soup-category-checkout',
-            'main': '.main-category-checkout',
-            'salad': '.salad-category-checkout',
-            'drink': '.drink-category-checkout',
-            'dessert': '.dessert-category-checkout'
-        };
-
-        const textIds = {
-            'soup': '#form-selected-soup',
-            'main': '#form-selected-main',
-            'salad': '#form-selected-salad',
-            'drink': '#form-selected-drink',
-            'dessert': '#form-selected-dessert'
-        };
-
-        const priceIds = {
-            'soup': '#form-selected-soup-price',
-            'main': '#form-selected-main-price',
-            'salad': '#form-selected-salad-price',
-            'drink': '#form-selected-drink-price',
-            'dessert': '#form-selected-dessert-price'
-        };
-
-        const defaultTexts = {
-            'soup': 'Не выбран',
-            'main': 'Не выбрано',
-            'salad': 'Не выбран',
-            'drink': 'Не выбран',
-            'dessert': 'Не выбран'
-        };
-
-        const categoryElement = document.querySelector(categoryClasses[category]);
-        const textElement = document.querySelector(textIds[category]);
-        const priceElement = document.querySelector(priceIds[category]);
-
-        if (dishKeyword) {
-            const dish = dishes.find(d => d.keyword === dishKeyword);
-            if (dish && categoryElement && textElement && priceElement) {
-                textElement.textContent = dish.name;
-                priceElement.textContent = `${dish.price} ₽`;
-                categoryElement.style.display = 'block';
-            }
-        } else {
-            if (categoryElement && textElement && priceElement) {
-                textElement.textContent = defaultTexts[category];
-                priceElement.textContent = '0 ₽';
-                categoryElement.style.display = 'none';
-            }
-        }
-    }
-
-    // Функция для обновления итоговой стоимости в форме
-    function updateFormTotalCost(savedData, dishes) {
-        let total = 0;
-
+        
+        // Рассчитываем общую стоимость
         if (savedData.soup) {
             const dish = dishes.find(d => d.keyword === savedData.soup);
             if (dish) total += dish.price;
@@ -235,167 +162,295 @@ document.addEventListener('DOMContentLoaded', function() {
             const dish = dishes.find(d => d.keyword === savedData.dessert);
             if (dish) total += dish.price;
         }
-
-        const totalElement = document.getElementById('form-total-cost');
-        const totalContainer = document.getElementById('form-total-cost-container');
-
-        if (totalElement) {
-            totalElement.textContent = `${total} ₽`;
-        }
-        if (totalContainer) {
-            totalContainer.style.display = 'block';
+        
+        // Обновляем общую стоимость
+        const totalElement = document.getElementById('total-cost-checkout');
+        if (totalElement) totalElement.textContent = `${total} ₽`;
+        
+        // Показываем блок с общей стоимостью
+        const totalContainer = document.getElementById('total-cost-container-checkout');
+        if (totalContainer) totalContainer.style.display = 'block';
+    }
+    
+    // Функция для обновления категории в форме
+    function updateFormCategory(category, dishKeyword, dishes) {
+        const nameElement = document.getElementById(`selected-${category}-checkout`);
+        const priceElement = document.getElementById(`selected-${category}-price-checkout`);
+        const hiddenField = document.getElementById(`${category}_id`);
+        const categoryElement = document.querySelector(`.${category}-category-checkout`);
+        
+        if (dishKeyword) {
+            const dish = dishes.find(d => d.keyword === dishKeyword);
+            if (dish) {
+                if (nameElement) nameElement.textContent = dish.name;
+                if (priceElement) priceElement.textContent = `${dish.price} ₽`;
+                if (hiddenField) hiddenField.value = this.getDishId(dish);
+                if (categoryElement) categoryElement.style.display = 'block';
+            }
+        } else {
+            if (nameElement) nameElement.textContent = category === 'main' ? 'Не выбрано' : 'Не выбран';
+            if (priceElement) priceElement.textContent = '0 ₽';
+            if (hiddenField) hiddenField.value = '';
+            if (categoryElement) categoryElement.style.display = 'block';
         }
     }
-
-    // Функция для инициализации обработчиков удаления блюд
-    function initRemoveButtons(savedData) {
-        const removeButtons = document.querySelectorAll('.btn-remove');
-
-        removeButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const category = this.getAttribute('data-category');
-                const dishKeyword = this.getAttribute('data-dish');
-
-                // Удаляем блюдо из savedData
-                if (savedData[category] === dishKeyword) {
-                    savedData[category] = null;
-                }
-
-                // Сохраняем обновленные данные в localStorage
-                window.storageManager.saveSelectedDishes(savedData);
-
-                // Обновляем страницу
-                displaySelectedDishes(savedData);
-                updateOrderForm(savedData);
-            });
+    
+    // Функция для получения ID блюда (в реальном API это было бы числовое ID)
+    function getDishId(dish) {
+        // В реальном приложении здесь бы было dish.id
+        // Поскольку у нас нет числовых ID, используем keyword
+        // В реальном API нужно будет преобразовать keyword в ID
+        return dish.keyword;
+    }
+    
+    // Функция для скрытия всех категорий в форме
+    function hideAllFormCategories() {
+        const categories = ['soup', 'main', 'salad', 'drink', 'dessert'];
+        categories.forEach(category => {
+            const element = document.querySelector(`.${category}-category-checkout`);
+            if (element) element.style.display = 'none';
+        });
+        
+        const totalContainer = document.getElementById('total-cost-container-checkout');
+        if (totalContainer) totalContainer.style.display = 'none';
+    }
+    
+    // Функция для инициализации кнопок удаления
+    function initRemoveButtons() {
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('remove-btn')) {
+                const category = event.target.getAttribute('data-category');
+                removeDish(category);
+            }
         });
     }
-
+    
+    // Функция для удаления блюда
+    function removeDish(category) {
+        // Загружаем текущие данные
+        const savedData = window.storageManager.loadSelectedDishes();
+        if (!savedData) return;
+        
+        // Удаляем блюдо из категории
+        savedData[category] = null;
+        
+        // Сохраняем обновленные данные
+        window.storageManager.saveSelectedDishes(savedData);
+        
+        // Перезагружаем страницу
+        location.reload();
+    }
+    
     // Функция для инициализации валидации формы
     function initFormValidation() {
-        const form = document.getElementById('checkoutForm');
+        const form = document.getElementById('orderFormCheckout');
         if (!form) return;
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-
+        
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
             // Проверяем валидность комбо
             const savedData = window.storageManager.loadSelectedDishes();
-            if (!isValidCombo(savedData)) {
-                alert('Выберите валидный набор блюд для оформления заказа');
+            if (!savedData || !isValidCombo(savedData)) {
+                alert('Пожалуйста, выберите валидный набор блюд (комбо) перед оформлением заказа.');
                 return;
             }
-
-            // Собираем данные формы
-            const formData = {
-                full_name: document.getElementById('full_name').value,
-                email: document.getElementById('email').value,
-                subscribe: document.getElementById('subscribe').checked ? 1 : 0,
-                phone: document.getElementById('phone').value,
-                delivery_address: document.getElementById('delivery_address').value,
-                delivery_type: document.querySelector('input[name="delivery_type"]:checked').value,
-                delivery_time: document.getElementById('delivery_time').value || null,
-                comment: document.getElementById('comment').value,
-                soup_id: null,
-                main_course_id: null,
-                salad_id: null,
-                drink_id: null,
-                dessert_id: null
-            };
-
-            // Находим ID блюд
-            const dishes = window.getDishes ? window.getDishes() : [];
-
-            if (savedData.soup) {
-                const dish = dishes.find(d => d.keyword === savedData.soup);
-                if (dish) formData.soup_id = dish.id;
+            
+            // Проверяем обязательные поля формы
+            if (!validateForm()) {
+                return;
             }
-            if (savedData.main) {
-                const dish = dishes.find(d => d.keyword === savedData.main);
-                if (dish) formData.main_course_id = dish.id;
-            }
-            if (savedData.salad) {
-                const dish = dishes.find(d => d.keyword === savedData.salad);
-                if (dish) formData.salad_id = dish.id;
-            }
-            if (savedData.drink) {
-                const dish = dishes.find(d => d.keyword === savedData.drink);
-                if (dish) formData.drink_id = dish.id;
-            }
-            if (savedData.dessert) {
-                const dish = dishes.find(d => d.keyword === savedData.dessert);
-                if (dish) formData.dessert_id = dish.id;
-            }
-
-            // Отправляем данные на сервер
-            sendOrderToServer(formData);
+            
+            // Отправляем заказ
+            await submitOrder();
         });
     }
-
+    
     // Функция для проверки валидности комбо
     function isValidCombo(savedData) {
-        const { soup, main, salad, drink, dessert } = savedData;
-
+        const hasSoup = !!savedData.soup;
+        const hasMain = !!savedData.main;
+        const hasSalad = !!savedData.salad;
+        const hasDrink = !!savedData.drink;
+        
+        // Варианты комбо:
         const combos = [
-            { soup: true, main: true, salad: true, drink: true },
-            { soup: true, main: true, salad: false, drink: true },
-            { soup: true, main: false, salad: true, drink: true },
-            { soup: false, main: true, salad: true, drink: true },
-            { soup: false, main: true, salad: false, drink: true }
+            { soup: true, main: true, salad: true, drink: true },  // Комбо 1
+            { soup: true, main: true, salad: false, drink: true }, // Комбо 2
+            { soup: true, main: false, salad: true, drink: true }, // Комбо 3
+            { soup: false, main: true, salad: true, drink: true }, // Комбо 4
+            { soup: false, main: true, salad: false, drink: true } // Комбо 5
         ];
-
+        
+        // Проверяем каждый комбо
         for (const combo of combos) {
-            const hasSoup = !!soup;
-            const hasMain = !!main;
-            const hasSalad = !!salad;
-            const hasDrink = !!drink;
-
-            if (hasSoup === combo.soup &&
-                hasMain === combo.main &&
-                hasSalad === combo.salad &&
+            if (hasSoup === combo.soup && 
+                hasMain === combo.main && 
+                hasSalad === combo.salad && 
                 hasDrink === combo.drink) {
                 return true;
             }
         }
-
+        
         return false;
     }
-
-    // Функция для отправки заказа на сервер
-    function sendOrderToServer(formData) {
-        // Получите свой API key из СДО Московского Политеха
-        const apiKey = 'YOUR_API_KEY_HERE'; // Замените на ваш API key
-        const apiUrl = 'https://edu.std-900.ist.mospolytech.ru/labs/api/orders?api_key=' + apiKey;
-
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(data => {
-                    throw new Error(data.error || 'Ошибка при отправке заказа');
-                });
+    
+    // Функция для валидации формы
+    function validateForm() {
+        const requiredFields = [
+            'full_name',
+            'email-checkout',
+            'phone-checkout',
+            'delivery_address'
+        ];
+        
+        for (const fieldId of requiredFields) {
+            const field = document.getElementById(fieldId);
+            if (!field || !field.value.trim()) {
+                alert(`Пожалуйста, заполните поле: ${field.previousElementSibling.textContent}`);
+                field.focus();
+                return false;
             }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Заказ успешно отправлен:', data);
-            alert('Ваш заказ успешно оформлен!');
-
-            // Очищаем localStorage после успешной отправки
+        }
+        
+        // Проверяем email
+        const emailField = document.getElementById('email-checkout');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailField.value)) {
+            alert('Пожалуйста, введите корректный email адрес');
+            emailField.focus();
+            return false;
+        }
+        
+        // Проверяем время доставки, если выбрано "Ко времени"
+        const specificTimeRadio = document.getElementById('specific_time_radio_checkout');
+        if (specificTimeRadio && specificTimeRadio.checked) {
+            const timeField = document.getElementById('delivery_time');
+            if (!timeField.value) {
+                alert('Пожалуйста, укажите время доставки');
+                timeField.focus();
+                return false;
+            }
+            
+            // Проверяем, что время в пределах 07:00-23:00
+            const [hours, minutes] = timeField.value.split(':').map(Number);
+            if (hours < 7 || hours > 23) {
+                alert('Время доставки должно быть между 07:00 и 23:00');
+                timeField.focus();
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    // Функция для отправки заказа на сервер
+    async function submitOrder() {
+        try {
+            // Получаем данные формы
+            const formData = getFormData();
+            
+            // Получаем API ключ (в реальном приложении это был бы уникальный ключ пользователя)
+            // Для примера используем тестовый ключ
+            const apiKey = '123e4567-e89b-12d3-a456-426655440000';
+            
+            // URL API для создания заказа
+            const apiUrl = `https://edu.std-900.ist.mospolytech.ru/labs/api/orders?api_key=${apiKey}`;
+            
+            console.log('Отправка заказа на:', apiUrl);
+            console.log('Данные заказа:', formData);
+            
+            // Отправляем POST запрос
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Ошибка HTTP: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            console.log('Заказ успешно создан:', result);
+            
+            // Очищаем localStorage
             window.storageManager.clearSelectedDishes();
-
+            
+            // Показываем сообщение об успехе
+            alert('Заказ успешно оформлен! Спасибо за заказ.');
+            
             // Перенаправляем на главную страницу
             window.location.href = 'index.html';
-        })
-        .catch(error => {
-            console.error('Ошибка:', error);
-            alert('Ошибка при отправке заказа: ' + error.message);
-        });
+            
+        } catch (error) {
+            console.error('Ошибка при оформлении заказа:', error);
+            alert(`Ошибка при оформлении заказа: ${error.message}\nПожалуйста, попробуйте еще раз.`);
+        }
+    }
+    
+    // Функция для получения данных формы
+    function getFormData() {
+        const savedData = window.storageManager.loadSelectedDishes();
+        const dishes = window.getDishes ? window.getDishes() : [];
+        
+        // Получаем ID блюд
+        let soupId = '';
+        let mainCourseId = '';
+        let saladId = '';
+        let drinkId = '';
+        let dessertId = '';
+        
+        if (savedData.soup) {
+            const dish = dishes.find(d => d.keyword === savedData.soup);
+            if (dish) soupId = this.getDishId(dish);
+        }
+        
+        if (savedData.main) {
+            const dish = dishes.find(d => d.keyword === savedData.main);
+            if (dish) mainCourseId = this.getDishId(dish);
+        }
+        
+        if (savedData.salad) {
+            const dish = dishes.find(d => d.keyword === savedData.salad);
+            if (dish) saladId = this.getDishId(dish);
+        }
+        
+        if (savedData.drink) {
+            const dish = dishes.find(d => d.keyword === savedData.drink);
+            if (dish) drinkId = this.getDishId(dish);
+        }
+        
+        if (savedData.dessert) {
+            const dish = dishes.find(d => d.keyword === savedData.dessert);
+            if (dish) dessertId = this.getDishId(dish);
+        }
+        
+        // Собираем данные формы
+        const formData = {
+            full_name: document.getElementById('full_name').value,
+            email: document.getElementById('email-checkout').value,
+            subscribe: document.getElementById('subscribe').checked ? 1 : 0,
+            phone: document.getElementById('phone-checkout').value,
+            delivery_address: document.getElementById('delivery_address').value,
+            delivery_type: document.querySelector('input[name="delivery_type"]:checked').value,
+            comment: document.getElementById('comment-checkout').value || ''
+        };
+        
+        // Добавляем время доставки, если выбрано "Ко времени"
+        if (formData.delivery_type === 'by_time') {
+            formData.delivery_time = document.getElementById('delivery_time').value;
+        }
+        
+        // Добавляем ID блюд, если они есть
+        if (soupId) formData.soup_id = soupId;
+        if (mainCourseId) formData.main_course_id = mainCourseId;
+        if (saladId) formData.salad_id = saladId;
+        if (drinkId) formData.drink_id = drinkId;
+        if (dessertId) formData.dessert_id = dessertId;
+        
+        return formData;
     }
 });
