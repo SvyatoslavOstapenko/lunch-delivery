@@ -268,8 +268,6 @@ footer h2 {
     }
 }
 
-/* Добавьте в конец style.css */
-
 /* Стили для состояния загрузки */
 .loading-message {
     text-align: center;
@@ -312,4 +310,68 @@ footer h2 {
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-right: 10px;
+}
+
+/* Дополнительные стили для уведомлений и модальных окон */
+
+/* Стили для спиннера загрузки */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Стили для сообщений об ошибках и успехе */
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+    border-left: 4px solid #c62828;
+}
+
+.success-message {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+    border-left: 4px solid #2e7d32;
+}
+
+.info-message {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+    border-left: 4px solid #1565c0;
+}
+
+/* Адаптивность для модальных окон */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 20px;
+    }
+    
+    .api-key-form {
+        flex-direction: column;
+    }
+    
+    .api-key-form input {
+        min-width: 100%;
+    }
 }
