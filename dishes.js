@@ -1,19 +1,15 @@
+// dishes.js
 
-// данные будут загружаться через API
+// Глобальная переменная для хранения блюд
+window.dishesData = [];
 
-let dishes = []; // Массив будет заполняться после загрузки данных
+// Функция для установки блюд
+window.setDishes = function(newDishes) {
+    window.dishesData = newDishes;
+    console.log('Блюда установлены:', window.dishesData.length, 'позиций');
+};
 
-// Функция для обновления массива блюд
-function setDishes(newDishes) {
-    dishes = newDishes;
-    console.log('Блюда обновлены:', dishes.length, 'позиций');
-}
-
-// Функция для получения массива блюд
-function getDishes() {
-    return dishes;
-}
-
-// Экспортируем функции для использования
-window.setDishes = setDishes;
-window.getDishes = getDishes;
+// Функция для получения блюд
+window.getDishes = function() {
+    return window.dishesData;
+};

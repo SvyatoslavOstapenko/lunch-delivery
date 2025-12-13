@@ -6,9 +6,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const dishes = window.getDishes ? window.getDishes() : [];
         if (dishes.length > 0) {
             clearInterval(checkDishesLoaded);
+            console.log('Блюда загружены, инициализируем фильтры...');
             initFilterDishes();
         }
-    }, 100);
+    }, 500);
     
     function initFilterDishes() {
         // Функция для фильтрации блюд
@@ -61,8 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 card.setAttribute('data-category', dish.category);
                 card.setAttribute('data-kind', dish.kind);
                 
-                // Используем полный URL для изображений из API
-                const imageUrl = dish.image.startsWith('http') ? dish.image : `images/${dish.image}`;
+                // Используем изображение из API или дефолтное
+                let imageUrl = dish.image || 'images/default-food.jpg';
                 
                 card.innerHTML = `
                     <img src="${imageUrl}" alt="${dish.name}" onerror="this.src='images/default-food.jpg'">
