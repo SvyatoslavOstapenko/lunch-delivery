@@ -21,13 +21,13 @@
                 <ul>
                     <li><a href="index.html">Главная</a></li>
                     <li><a href="lunch.html" id="active">Собрать ланч</a></li>
+                    <li><a href="checkout.html">Оформить заказ</a></li>
                     <li><a href="#soups">Супы</a></li>
                     <li><a href="#main-courses">Главные блюда</a></li>
                     <li><a href="#salads">Салаты</a></li>
                     <li><a href="#drinks">Напитки</a></li>
                     <li><a href="#desserts">Десерты</a></li>
                     <li><a href="#lunch-combos">Варианты ланча</a></li>
-                    <li><a href="#order-form">Оформление заказа</a></li>
                     <li><a href="#contacts">Контакты</a></li>
                 </ul>
             </nav>
@@ -371,9 +371,21 @@
         </div>
     </footer>
 
+    <!-- Панель для перехода к оформлению -->
+    <div id="checkout-panel" class="checkout-panel">
+        <div class="panel-content">
+            <div class="total">Итого: <span id="total-cost-panel">0 ₽</span></div>
+            <div class="invalid-combo" id="invalid-combo-message">
+                Выберите валидный набор блюд для оформления заказа
+            </div>
+        </div>
+        <a href="#" id="checkout-link" class="checkout-link disabled">Перейти к оформлению</a>
+    </div>
+
     <!-- Подключение JavaScript -->
     <script src="dishes.js"></script>
     <script src="loadDishes.js"></script>
+    <script src="storage.js"></script>
     <script src="displayDishes.js"></script>
     <script src="filterDishes.js"></script>
     <script src="selectDishes.js"></script>

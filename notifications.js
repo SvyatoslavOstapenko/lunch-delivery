@@ -1,4 +1,4 @@
-// Система уведомлений для проверки ланча
+// notifications.js - ОБНОВЛЕННАЯ ВЕРСИЯ
 
 class LunchValidator {
     constructor() {
@@ -36,13 +36,6 @@ class LunchValidator {
         const { soup, main, salad, drink, dessert } = selectedDishes;
         
         // Варианты комбо:
-        // 1. Суп + Главное блюдо + Салат + Напиток
-        // 2. Суп + Главное блюдо + Напиток
-        // 3. Суп + Салат + Напиток
-        // 4. Главное блюдо + Салат + Напиток
-        // 5. Главное блюдо + Напиток
-        // Десерт можно добавлять к любому варианту
-        
         const combos = [
             { soup: true, main: true, salad: true, drink: true },  // Комбо 1
             { soup: true, main: true, salad: false, drink: true }, // Комбо 2
@@ -51,12 +44,17 @@ class LunchValidator {
             { soup: false, main: true, salad: false, drink: true } // Комбо 5
         ];
         
+        const hasSoup = !!soup;
+        const hasMain = !!main;
+        const hasSalad = !!salad;
+        const hasDrink = !!drink;
+        
         // Проверяем каждый комбо (игнорируем десерт)
         for (const combo of combos) {
-            if (soup === combo.soup && 
-                main === combo.main && 
-                salad === combo.salad && 
-                drink === combo.drink) {
+            if (hasSoup === combo.soup && 
+                hasMain === combo.main && 
+                hasSalad === combo.salad && 
+                hasDrink === combo.drink) {
                 return true;
             }
         }
@@ -146,20 +144,31 @@ class LunchValidator {
         }
     }
 
-    // Получаем текущие выбранные блюда
-    getSelectedDishes() {
+    // Получаем текущие выбранные блюда из скрытых полей
+    getSelectedDishesFromForm() {
         return {
-            soup: document.getElementById('hidden-soup').value !== '',
-            main: document.getElementById('hidden-main').value !== '',
-            salad: document.getElementById('hidden-salad').value !== '',
-            drink: document.getElementById('hidden-drink').value !== '',
-            dessert: document.getElementById('hidden-dessert').value !== ''
+            soup: document.getElementById('hidden-soup')?.value !== '',
+            main: document.getElementById('hidden-main')?.value !== '',
+            salad: document.getElementById('hidden-salad')?.value !== '',
+            drink: document.getElementById('hidden-drink')?.value !== '',
+            dessert: document.getElementById('hidden-dessert')?.value !== ''
         };
     }
 
-    // Основная функция проверки
-    validateLunch() {
-        const selectedDishes = this.getSelectedDishes();
+    // Получаем текущие выбранные блюда из объекта selectedDishes
+    getSelectedDishesFromObject(selectedDishes) {
+        return {
+            soup: !!selectedDishes.soup,
+            main: !!selectedDishes.main,
+            salad: !!selectedDishes.salad,
+            drink: !!selectedDishes.drink,
+            dessert: !!selectedDishes.dessert
+        };
+    }
+
+    // Основная функция проверки для формы
+    validateLunchForm() {
+        const selectedDishes = this.getSelectedDishesFromForm();
         
         // Проверяем валидность комбо
         if (this.isValidCombo(selectedDishes)) {
@@ -175,17 +184,36 @@ class LunchValidator {
         
         return true;
     }
+
+    // Основная функция проверки для объекта
+    validateLunchObject(selectedDishes) {
+        const dishesBool = this.getSelectedDishesFromObject(selectedDishes);
+        
+        // Проверяем валидность комбо
+        if (this.isValidCombo(dishesBool)) {
+            return true; // Валидный комбо
+        }
+        
+        // Получаем тип уведомления
+        const notificationType = this.getNotificationType(dishesBool);
+        if (notificationType) {
+            this.showNotification(notificationType);
+            return false;
+        }
+        
+        return true;
+    }
 }
 
 // Инициализация при загрузке документа
 document.addEventListener('DOMContentLoaded', function() {
     const validator = new LunchValidator();
     
-    // Добавляем обработчик для формы
+    // Добавляем обработчик для формы на странице lunch.html
     const orderForm = document.getElementById('orderForm');
     if (orderForm) {
         orderForm.addEventListener('submit', function(event) {
-            if (!validator.validateLunch()) {
+            if (!validator.validateLunchForm()) {
                 event.preventDefault(); // Отменяем отправку формы
             }
         });
