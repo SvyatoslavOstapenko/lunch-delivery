@@ -118,36 +118,24 @@
 
 /* Стили для панели оформления на странице lunch.html */
 .checkout-panel {
-    position: fixed; /* Изменяем с sticky на fixed для надежности */
+    position: sticky;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(255, 255, 255, 0.95); /* Полупрозрачный фон */
+    background-color: white;
     padding: 15px 20px;
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.2); /* Более заметная тень */
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 1000; /* Увеличиваем z-index */
-    transform: translateY(100%); /* Скрываем за экраном */
-    transition: transform 0.3s ease; /* Плавное появление */
-    backdrop-filter: blur(10px); /* Эффект размытия фона */
-}
-
-.checkout-panel.visible {
-    transform: translateY(0); /* Показываем панель */
-}
-
-.panel-content {
-    display: flex;
-    flex-direction: column;
+    z-index: 100;
+    display: none; /* По умолчанию скрыта */
 }
 
 .checkout-panel .total {
     font-size: 1.5rem;
     font-weight: bold;
     color: #2c3e50;
-    margin-bottom: 5px;
 }
 
 .checkout-panel .checkout-link {
@@ -158,7 +146,6 @@
     text-decoration: none;
     font-weight: 500;
     transition: all 0.3s ease;
-    white-space: nowrap;
 }
 
 .checkout-panel .checkout-link:hover:not(.disabled) {
@@ -171,11 +158,6 @@
     background-color: #95a5a6;
     cursor: not-allowed;
     opacity: 0.7;
-}
-
-.checkout-panel .checkout-link.disabled:hover {
-    transform: none;
-    box-shadow: none;
 }
 
 .checkout-panel .invalid-combo {
@@ -192,10 +174,6 @@
         gap: 15px;
         text-align: center;
         padding: 15px;
-    }
-    
-    .panel-content {
-        align-items: center;
     }
     
     .dish-card-checkout {

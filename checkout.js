@@ -1,4 +1,4 @@
-// checkout.js - ИСПРАВЛЕННАЯ ВЕРСИЯ
+// checkout.js
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Страница оформления заказа загружена');
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (dish) {
                 if (nameElement) nameElement.textContent = dish.name;
                 if (priceElement) priceElement.textContent = `${dish.price} ₽`;
-                if (hiddenField) hiddenField.value = getDishId(dish);
+                if (hiddenField) hiddenField.value = this.getDishId(dish);
                 if (categoryElement) categoryElement.style.display = 'block';
             }
         } else {
@@ -195,10 +195,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Функция для получения ID блюда
+    // Функция для получения ID блюда (в реальном API это было бы числовое ID)
     function getDishId(dish) {
-        // Используем ID из API 7-й лабораторной
-        return dish.id || dish.keyword;
+        // В реальном приложении здесь бы было dish.id
+        // Поскольку у нас нет числовых ID, используем keyword
+        // В реальном API нужно будет преобразовать keyword в ID
+        return dish.keyword;
     }
     
     // Функция для скрытия всех категорий в форме
@@ -352,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Для примера используем тестовый ключ
             const apiKey = '123e4567-e89b-12d3-a456-426655440000';
             
-            // URL API для создания заказа (8-я лабораторная)
+            // URL API для создания заказа
             const apiUrl = `https://edu.std-900.ist.mospolytech.ru/labs/api/orders?api_key=${apiKey}`;
             
             console.log('Отправка заказа на:', apiUrl);
@@ -403,27 +405,27 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (savedData.soup) {
             const dish = dishes.find(d => d.keyword === savedData.soup);
-            if (dish) soupId = getDishId(dish);
+            if (dish) soupId = this.getDishId(dish);
         }
         
         if (savedData.main) {
             const dish = dishes.find(d => d.keyword === savedData.main);
-            if (dish) mainCourseId = getDishId(dish);
+            if (dish) mainCourseId = this.getDishId(dish);
         }
         
         if (savedData.salad) {
             const dish = dishes.find(d => d.keyword === savedData.salad);
-            if (dish) saladId = getDishId(dish);
+            if (dish) saladId = this.getDishId(dish);
         }
         
         if (savedData.drink) {
             const dish = dishes.find(d => d.keyword === savedData.drink);
-            if (dish) drinkId = getDishId(dish);
+            if (dish) drinkId = this.getDishId(dish);
         }
         
         if (savedData.dessert) {
             const dish = dishes.find(d => d.keyword === savedData.dessert);
-            if (dish) dessertId = getDishId(dish);
+            if (dish) dessertId = this.getDishId(dish);
         }
         
         // Собираем данные формы

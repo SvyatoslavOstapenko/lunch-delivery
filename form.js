@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const timeInputGroup = document.getElementById('time_input_group');
         const specificTimeInput = document.getElementById('specific_time');
         const asapRadio = document.querySelector('input[value="asap"]');
-        const resetButton = document.querySelector('.reset-btn');
         
         // Скрываем поле времени при загрузке страницы
         if (timeInputGroup) timeInputGroup.style.display = 'none';
@@ -27,42 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
         timeRadios.forEach(radio => {
             radio.addEventListener('change', function() {
                 if (this.value === 'specific') {
-                    if (timeInputGroup) timeInputGroup.style.display = 'block';
-                    if (specificTimeInput) specificTimeInput.required = true;
+                    timeInputGroup.style.display = 'block';
+                    specificTimeInput.required = true;
                 } else {
-                    if (timeInputGroup) timeInputGroup.style.display = 'none';
-                    if (specificTimeInput) specificTimeInput.required = false;
+                    timeInputGroup.style.display = 'none';
+                    specificTimeInput.required = false;
                 }
             });
         });
-        
-        // Обработчик для кнопки сброса
-        if (resetButton) {
-            resetButton.addEventListener('click', function(event) {
-                event.preventDefault();
-                
-                // Сбрасываем форму
-                const orderForm = document.getElementById('orderForm');
-                if (orderForm) {
-                    orderForm.reset();
-                }
-                
-                // Сбрасываем отображение поля времени
-                if (timeInputGroup) timeInputGroup.style.display = 'none';
-                if (specificTimeInput) specificTimeInput.required = false;
-                if (asapRadio) asapRadio.checked = true;
-                
-                // Очищаем localStorage
-                if (window.storageManager) {
-                    window.storageManager.clearSelectedDishes();
-                }
-                
-                // Перезагружаем страницу для обновления состояния
-                setTimeout(() => {
-                    location.reload();
-                }, 100);
-            });
-        }
         
         // Валидация формы перед отправкой
         const orderForm = document.getElementById('orderForm');
@@ -119,6 +90,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Если все проверки пройдены, форма отправится
                 console.log('Форма отправляется...');
+            });
+        }
+        
+        // Обработчик для кнопки сброса
+        const resetButton = document.querySelector('.reset-btn');
+        if (resetButton) {
+            resetButton.addEventListener('click', function() {
+                // Сбрасываем отображение поля времени
+                if (timeInputGroup) timeInputGroup.style.display = 'none';
+                if (specificTimeInput) specificTimeInput.required = false;
+                if (asapRadio) asapRadio.checked = true;
+                
+                // Через небольшую задержку сбросим форму (для корректного сброса)
+                setTimeout(() => {
+                    if (orderForm) orderForm.reset();
+                }, 10);
             });
         }
         

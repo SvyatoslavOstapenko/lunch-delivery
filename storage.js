@@ -9,22 +9,12 @@ class StorageManager {
         try {
             const dataToSave = {};
             
-            // Сохраняем только keyword блюд с проверкой наличия свойства
-            if (selectedDishes.soup && selectedDishes.soup.keyword) {
-                dataToSave.soup = selectedDishes.soup.keyword;
-            }
-            if (selectedDishes.main && selectedDishes.main.keyword) {
-                dataToSave.main = selectedDishes.main.keyword;
-            }
-            if (selectedDishes.salad && selectedDishes.salad.keyword) {
-                dataToSave.salad = selectedDishes.salad.keyword;
-            }
-            if (selectedDishes.drink && selectedDishes.drink.keyword) {
-                dataToSave.drink = selectedDishes.drink.keyword;
-            }
-            if (selectedDishes.dessert && selectedDishes.dessert.keyword) {
-                dataToSave.dessert = selectedDishes.dessert.keyword;
-            }
+            // Сохраняем только keyword блюд
+            if (selectedDishes.soup) dataToSave.soup = selectedDishes.soup.keyword;
+            if (selectedDishes.main) dataToSave.main = selectedDishes.main.keyword;
+            if (selectedDishes.salad) dataToSave.salad = selectedDishes.salad.keyword;
+            if (selectedDishes.drink) dataToSave.drink = selectedDishes.drink.keyword;
+            if (selectedDishes.dessert) dataToSave.dessert = selectedDishes.dessert.keyword;
             
             localStorage.setItem(this.STORAGE_KEY, JSON.stringify(dataToSave));
             console.log('Данные сохранены в localStorage:', dataToSave);
