@@ -12,6 +12,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 500);
     
     function initSelectDishes() {
+        // Добавляем отладочную информацию
+        console.log('Инициализация выбора блюд...');
+        console.log('Найдена панель оформления:', !!checkoutPanel);
+        console.log('Найдена ссылка оформления:', !!checkoutLink);
+        
         // Объект для хранения выбранных блюд
         let selectedDishes = {
             soup: null,
@@ -136,8 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (dessertCategoryElement) dessertCategoryElement.style.display = 'none';
                 if (totalCostContainer) totalCostContainer.style.display = 'none';
                 
-                // Скрываем панель оформления
-                if (checkoutPanel) checkoutPanel.style.display = 'none';
+                // Обновляем панель оформления
+                updateCheckoutPanel();
                 return;
             }
             
@@ -268,16 +273,23 @@ document.addEventListener('DOMContentLoaded', function() {
         function updateCheckoutPanel() {
             if (!checkoutPanel) return;
             
-            // Показываем панель, если есть выбранные блюда
+            // Проверяем, выбрано ли хотя бы одно блюдо
             const hasSelection = selectedDishes.soup || selectedDishes.main || 
                                selectedDishes.salad || selectedDishes.drink || 
                                selectedDishes.dessert;
             
             if (hasSelection) {
-                checkoutPanel.style.display = 'flex';
+                // Показываем панель
+                checkoutPanel.classList.add('visible');
                 
                 // Проверяем валидность комбо
                 const validCombo = isValidCombo();
+                
+                // Добавляем отладочную информацию
+                console.log('Обновление панели оформления:');
+                console.log('Есть выбор:', hasSelection);
+                console.log('Валидное комбо:', validCombo);
+                console.log('Текущая сумма:', totalCostPanel ? totalCostPanel.textContent : 'не найдено');
                 
                 if (validCombo) {
                     // Валидное комбо - активируем ссылку
@@ -299,7 +311,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             } else {
-                checkoutPanel.style.display = 'none';
+                // Скрываем панель
+                checkoutPanel.classList.remove('visible');
             }
         }
         
